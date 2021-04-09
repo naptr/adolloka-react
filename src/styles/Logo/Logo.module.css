@@ -1,0 +1,19 @@
+.logoContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 50vw;
+  padding: 1.5rem 0 0.5rem 0;
+  background: transparent;
+}
+
+.logoContainer img {
+  width: 160px;
+}
+/*# sourceMappingURL=Logo.module.css.map */

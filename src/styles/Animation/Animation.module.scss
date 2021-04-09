@@ -1,0 +1,30 @@
+.animationContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 3.75rem;
+
+  .subtitles {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2 {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+  }
+
+  span {
+    // margin: 0;
+    // padding: 0;
+    font-weight: 400;
+    font-size: 0.8125rem;
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,WAAW,EAAE,uBAAuB;CACrC",
+    "sources": [
+        "InlineLogo.module.scss"
+    ],
+    "names": [],
+    "file": "InlineLogo.module.css"
+}
