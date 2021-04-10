@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { ADD_TOKEN } from '../constant/CONSTANT';
-import InlineLogo from './InlineLogo';
-import Logo from '../components/Logo';
+import InlineLogo from '../components/Assets/InlineLogo';
+import Logo from './Assets/Logo';
 import ReactLoading from 'react-loading';
 import styles from '../styles/Login/Login.module.css';
 
@@ -26,6 +26,12 @@ class Login extends React.Component {
     this.setState({[field]: ev.target.value});
   }
   
+  handleKeyPress = (ev) => {
+    if (ev.key === "Enter") {
+      this.submitForm();
+    }
+  }
+
   submitForm = () => {
     this.setState(
       {isLoading: true} , 
@@ -86,7 +92,9 @@ class Login extends React.Component {
           <title>Masuk | adolloka</title>
         </Helmet>
         <div className={styles.loginContainer}>
-          <Logo />
+          <div className={styles.logoContainer}>
+            <Logo />
+          </div>
           <main className={styles.loginContent}>
             <img src="/assets/login-image.svg" className={styles.loginImage}/>
             <div className={styles.loginForm}>
@@ -94,7 +102,7 @@ class Login extends React.Component {
                 <h3>Masuk</h3>
                 <Link to="/register" className={styles.registerLink}>Daftar</Link>
               </div>
-              <form className={styles.formContainer}>
+              <form className={styles.formContainer} onKeyPress={this.handleKeyPress}>
                 <div className={styles.inputWrapper}>
                   <label className={styles.inputTitle}>Username</label>
                   <input 
@@ -143,7 +151,7 @@ class Login extends React.Component {
           <footer className={styles.loginFooter}>
             <div className={styles.creditsContainer}>
               <span className={styles.credit}>@2021, <Link to="/"><InlineLogo fontSize={1} fontWeight={700} /></Link></span>
-              <span className={styles.creditLink}><InlineLogo fontSize={1} fontWeight={700} fontColor='3A86FF' /> Register</span>
+              <span className={styles.creditLink}><InlineLogo fontSize={1} fontWeight={700} fontColor='3A86FF' /> Login</span>
             </div>
           </footer>
         </div>

@@ -1,4 +1,4 @@
-import styles from '../styles/Logo/InlineLogo.module.css';
+import styles from '../../styles/Logo/InlineLogo.module.css';
 
 const InlineLogo = (props) => {
   return (

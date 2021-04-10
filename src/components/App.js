@@ -6,7 +6,8 @@ import {
 import Home from '../components/Home';
 import Login from '../components/Login';
 import Register from '../components/Register';
-import EasterEgg from '../components/EasterEgg';
+import User from '../components/User';
+import EasterEgg from '../components/Assets/EasterEgg';
 import styles from '../styles/App/App.module.css';
 
 class App extends React.Component {
@@ -17,8 +18,8 @@ class App extends React.Component {
           <Route exact path="/" component={Home}/>
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>
+          <Route path="/user/:id" component={User}/>
           <Route path="/easteregg" exact component={EasterEgg}/>
-          {/* <Route path="/user" component={User}/> */}
         </Switch>
       </div>
     )

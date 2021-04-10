@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import Logo from '../components/Logo';
-import LottieAnimation from '../components/Lottie';
-import home from '../components/Animation/animation.json';
+import Logo from './Assets/Logo';
+import LottieAnimation from '../components/Assets/Lottie';
+import home from './Assets/animation.json';
 import ReactLoading from 'react-loading';
-import InlineLogo from '../components/InlineLogo';
+import InlineLogo from '../components/Assets/InlineLogo';
 import styles from '../styles/Register/Register.module.css';
 
 
@@ -20,6 +20,18 @@ class Register extends React.Component {
       password: '', 
       confirmPassword: '',
       isLoading: false
+    }
+  }
+
+  handleOnChange = (ev) => {
+    console.log('change')
+    const field = ev.target.name;
+    this.setState({ [field]: ev.target.value });
+  }
+
+  handleKeyPress = (ev) => {
+    if (ev.key === "Enter") {
+      this.sumbitData();
     }
   }
 
@@ -71,12 +83,6 @@ class Register extends React.Component {
     )
   }
 
-  handleOnChange = (ev) => {
-    console.log('change')
-    const field = ev.target.name;
-    this.setState({[field]: ev.target.value});
-  } 
-
   isFilled = () => {
     if (this.state.username == '' 
       || this.state.email == '' 
@@ -96,7 +102,9 @@ class Register extends React.Component {
           <title>Daftar | adolloka</title>
         </Helmet>
         <div className={styles.registerContainer}>
-          <Logo />
+          <div className={styles.logoContainer}>
+            <Logo />
+          </div>
           <main className={styles.registerContent}>
             <div className={styles.registerContentWrapper}>
               <LottieAnimation lotti={home} height={450} width={450}/>
@@ -105,7 +113,7 @@ class Register extends React.Component {
                 <div>
                   <span>Sudah punya akun <InlineLogo fontSize={1} fontWeight={700}/>? <Link to="/login" className={styles.link}>Masuk</Link></span>
                 </div>
-                <form className={styles.formContainer}>
+                <form className={styles.formContainer} onKeyPress={this.handleKeyPress}>
                   <div className={styles.inputWrapper}>
                     <label className={styles.inputTitle}>Username</label>
                     <input 
@@ -129,7 +137,7 @@ class Register extends React.Component {
                   <div className={styles.inputWrapper}>
                     <label className={styles.inputTitle}>Phone Number</label>
                     <input
-                      type="number"
+                      type="tel"
                       name="phoneNumber"
                       onChange={this.handleOnChange}
                       value={this.state.phoneNumber}

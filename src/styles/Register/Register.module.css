@@ -21,6 +21,15 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+.logoContainer {
+  padding: 1.5rem 0 0.5rem 0;
+  z-index: 2;
+}
+
+.logoContainer img {
+  width: 10rem;
+}
+
 .registerContent {
   display: -webkit-box;
   display: -ms-flexbox;

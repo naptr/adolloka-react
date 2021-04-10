@@ -2,8 +2,9 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import LoadingPage from '../Animation/LoadingPage';
+import LoadingPage from '../Assets/LoadingPage';
 import Header from '../../components/Header';
+import MainView from '../../components/Home/MainView';
 import styles from '../../styles/Home/Home.module.css';
 
 class Home extends React.Component {
@@ -12,7 +13,8 @@ class Home extends React.Component {
 
     this.state = {
       isLoading: false, 
-      userData: []
+      userData: [], 
+      getResult: null
     }
   }
 
@@ -39,6 +41,7 @@ class Home extends React.Component {
           }
           this.setState({
             userData: userData, 
+            getResult: 'success',
             isLoading: false
           })
         })
@@ -54,10 +57,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.isLogin) {
-      this.getData();
-    }
-    console.log(this.props)
+    this.getData();
   }
 
   render() {
@@ -65,18 +65,24 @@ class Home extends React.Component {
       return (
         <LoadingPage />
       )
-    } else {
+    } else if (this.state.getResult === 'success') {
       return (
         <>
           <Helmet>
             <title>Situs Jual Beli Pakaian Online Terbaik di Indonesia</title>
           </Helmet>
           <div className={styles.homeContainer}>
-            <Header />
+            <Header userid={this.state.userData.user}/>
+            
+            <MainView />
           </div>
         </>
       )
-    }
+    } else {
+      return (
+        <LoadingPage />
+      )
+    } 
   }
 }
 

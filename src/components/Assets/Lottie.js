@@ -1,7 +1,7 @@
 import React from 'react';
 import Lottie from 'react-lottie';
 import InlineLogo from './InlineLogo';
-import styles from '../styles/Animation/Animation.module.css';
+import styles from '../../styles/Animation/Animation.module.css';
 
 
 class LottieAnimation extends React.Component {
