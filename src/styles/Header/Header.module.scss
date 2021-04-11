@@ -10,7 +10,9 @@
   align-items: center;
   font-size: 0.75rem;
   background-color: #FFF;
-  z-index: 1000;
+  // box-shadow: rgb(0, 0, 0 / 7%) 0px 4px 6px -1px;
+  box-shadow: 0px 0px 10px 0px rgba(108, 117, 125, 0.3);
+  z-index: 999;
 }
 
 .headerContentTop {
@@ -27,4 +29,203 @@
   img {
     width: 9.0625rem;
   }
+}
+
+.categorySection {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  margin: 0 0.5rem 0 0.625rem;
+}
+
+.categoryAsButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 58px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+// .categoryAsButtonHovered {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 30px;
+//   width: 58px;
+//   cursor: pointer;
+//   transition: 0.3s;
+//   color: #3A86FF;
+//   border-radius: 4px;
+//   background-color: rgba(49, 53, 59, 0.12);
+// }
+
+.searchBarForm {
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+}
+
+.searchBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.searchBarWrapper {
+  width: 100%;
+  height: 2rem;
+}
+
+.searchBarMiddle {
+  border-radius: 0.5rem;
+  height: 100%;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  button {
+    height: 100%;
+    width: 2rem;
+    flex: 0 0 2rem;
+    background-color: rgb(243, 244, 245);
+    
+    &:hover {
+      background-color: rgba(49, 53, 59, 0.12);
+    }
+  }
+  
+  .searchBarButton {
+    border: none;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    outline: none;
+    position: relative;
+    cursor: pointer;
+  }
+}
+
+.searchBarInput {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: none;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.75rem;
+  color: inherit;
+
+  &::placeholder {
+    color: inherit;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.buttonCartBeforeLoggin {
+  width: 3%;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 20px;
+  // color: #6C757D;
+}
+
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 4px 0 20px;
+}
+
+.buttonLoggedIn {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 0 0 12px;
+}
+
+.button {
+  width: 36px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.verticalLine {
+  width: 1.2px;
+  min-width: 1.2px;
+  height: 24px;
+  // background-color: rgba(49, 53, 59, 0.12);
+  background-color: #495057;
+  margin: 0 0 0 16px;
+}
+
+.loginRegisterContainer {
+  width: 158px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 0 16px;
+}
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 47%;
+  height: 32px;
+  // padding: 0 16px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  background: #FFF;
+  color: #3A86FF;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #3A86FF;
+  
+  // a {
+  //   width: 100%;
+  //   height: 100%;
+  // }
+}
+
+.registerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 47%;
+  height: 32px;
+  // padding: 0 16px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: #FFF;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: #3A86FF;
+
+  // a {
+  //   width: 100%;
+  //   height: 100%;
+  // }
+}
+
+.userButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  height: 58px;
+  margin: 0 0 0 16px;
 }

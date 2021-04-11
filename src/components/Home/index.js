@@ -72,7 +72,7 @@ class Home extends React.Component {
             <title>Situs Jual Beli Pakaian Online Terbaik di Indonesia</title>
           </Helmet>
           <div className={styles.homeContainer}>
-            <Header userid={this.state.userData.user}/>
+            <Header userid={this.state.userData.user.id} mainProps={this.props}/>
             
             <MainView />
           </div>

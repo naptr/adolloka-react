@@ -2,7 +2,6 @@
 
 * {
   box-sizing: inherit;
-  color: #343A40;
 }
 
 body, html {
@@ -18,6 +17,8 @@ body, html {
 
 html {
   box-sizing: border-box;
+  /* color: #6C757D; */
+  color: #495057;
 }
 
 code {
