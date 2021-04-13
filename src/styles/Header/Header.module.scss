@@ -228,4 +228,21 @@
   width: 10%;
   height: 58px;
   margin: 0 0 0 16px;
+  cursor: pointer;
+}
+
+.userButton {
+  width: 98%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  border-radius: 2px;
+  padding: 0 0 0 6px;
+}
+
+.buttonText {
+  font-size: 12px;
+  padding: 8px;
+  transition: 0.2s;
 }

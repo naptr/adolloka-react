@@ -1,9 +1,22 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import Header from '../../components/Header';
+import MainView from '../../components/User/MainView';
+import LoadingPage from '../../components/Assets/LoadingPage';
+import styles from '../../styles/User/User.module.css';
 
 
 class User extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: true
+    }
+  }
+
   // constructor(props) {
   //   super(props);
 
@@ -49,16 +62,37 @@ class User extends React.Component {
 
   componentDidMount() {
     this.getUserData();
+    this.setState({isLoading: false})
   }
+
+  // componentDidUpdate() {
+  //   this.setState({isLoading: true})
+  // }
 
   render() {
     if (this.props.isLogin) {
-      return (
-        <h1>User da! {this.props.match.params.id}</h1>
-      )
+      if (this.state.isLoading) {
+        return (
+          <LoadingPage />
+        )
+      } else {
+        return (
+          <>
+            <Helmet>
+              <title>Biodata Diri | adolloka</title>
+            </Helmet>
+            <div className={styles.userContainer}>
+              <Header token={this.props.token} mainProps={this.props}/>
+              
+              <MainView token={this.props.token}/>
+            </div>
+          </>
+        )
+      }
+
     } else {
       return (
-        <Redirect to="/" />
+        <Redirect to="/login" />
       )
     }
   }

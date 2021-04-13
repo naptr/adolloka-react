@@ -61,6 +61,7 @@ class Login extends React.Component {
             });
             this.props.sendToken(this.state.token);
             this.props.history.push('/');
+            // console.log(token);
           } else {
             alert('Cannot Login');
             this.setState({isLoading: false})
@@ -122,7 +123,7 @@ class Login extends React.Component {
                   />
                   <span className={styles.passwordValidation}></span>
                 </div>
-                {console.log(this.state.isLoading)}
+                {/* {console.log(this.state.isLoading)} */}
                 <button 
                   type="button"
                   onClick={this.submitForm}

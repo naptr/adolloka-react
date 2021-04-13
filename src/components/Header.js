@@ -1,9 +1,9 @@
 import 
   React, 
   { useState, 
-    useHistory
+    // useHistory
   } from 'react';
-// import { Redirect } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { 
   Search, 
@@ -11,6 +11,7 @@ import {
   BellFill,
   EnvelopeFill
 } from 'react-bootstrap-icons';
+import LoadingPage from '../components/Assets/LoadingPage';
 import Logo from '../components/Assets/Logo';
 import styles from '../styles/Header/Header.module.css';
 
@@ -103,6 +104,9 @@ const Button = (props) => {
 }
 
 const RightHeader = (props) => {
+  const [shopButtonHovered, setShopButtonHovered] = useState(false);
+  const [accountButtonHovered, setAccountButtonHovered] = useState(false);
+  
 
   if (props.isLogin) {
     return (
@@ -115,17 +119,47 @@ const RightHeader = (props) => {
             <Button buttonName={BellFill} />
           </div>
           <div className={styles.buttonLoggedIn}>
-            <Button buttonName={EnvelopeFill} />
+            <Button buttonName={EnvelopeFill}/>
           </div>
         </div>
         <div className={styles.verticalLine}>
         </div>
-        <div className={styles.userButtonContainer}>
-
+        <div 
+          className={styles.userButtonContainer} 
+          onClick={() => props.mainProps.history.push(`/user/${props.userData != null ? props.userData.id : null}`)}
+          onMouseEnter={() => setShopButtonHovered(true)}
+          onMouseLeave={() => setShopButtonHovered(false)}
+        >
+          <div 
+            className={styles.userButton}
+            {...shopButtonHovered ? { style: { color: "#3A86FF", backgroundColor: "rgba(49, 53, 59, 0.12)" } } : { style: null }}
+          >
+            <img src="/assets/store-icon.png" alt="Store" style={{width: 25+'px', height: 25+'px'}}/>
+            <div 
+              className={styles.buttonText} 
+            >
+              Toko
+            </div>
+          </div>
         </div>
-        <div className={styles.userButtonContainer}>
-          <div className={styles.userAccount}>
-            <div>User {props.userid}</div>
+        <div 
+          className={styles.userButtonContainer}
+          onClick={() => props.mainProps.history.push(`/user/${props.userData != null ? props.userData.id : null}`)}
+          onMouseEnter={() => setAccountButtonHovered(true)}
+          onMouseLeave={() => setAccountButtonHovered(false)}
+        >
+          <div 
+            className={styles.userButton}
+            {...accountButtonHovered ? { style: { color: "#3A86FF", backgroundColor: "rgba(49, 53, 59, 0.12)" } } : { style: null }}
+          >
+            {/* <div><Link to={`/user/${props.userid}`}>User {props.userid != null ? props.userid : null}</Link></div> */}
+            {/* <div><Link to={`/user/${props.userData != null ? props.userData.id : null}`}>{props.userData != null ? props.userData.username : null}</Link></div> */}
+            <img src="/assets/user-icon.png" alt="User" style={{width: 25+'px', height: 25+'px'}}/>
+            <div 
+              className={styles.buttonText}
+            >
+              {props.userData != null ? props.userData.username : null}
+            </div>
           </div>
         </div>
       </>
@@ -141,12 +175,12 @@ const RightHeader = (props) => {
         <div className={styles.loginRegisterContainer}>
           <button 
             className={styles.loginButton}
-            onClick={() => props.mainProps.history.push('/login')}>
+            onClick={() => window.location = "/login"}>
             Masuk
           </button>
           <button 
             className={styles.registerButton}
-            onClick={() => props.mainProps.history.push('/register')}>
+            onClick={() => window.location = "/register" }>
             Daftar
           </button>
         </div>
@@ -158,21 +192,77 @@ const RightHeader = (props) => {
 class Header extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isLoading: false, 
+      userData: null, 
+      result: '',
+    }
+  }
+
+  getUserId = () => {
+    this.setState(
+      {isLoading: true}, 
+      () => {
+        fetch(
+          'https://adolloka.herokuapp.com/api/user', 
+          {
+            headers: {
+              'Authorization': `Bearer ${this.props.token}`
+            }
+          }
+        )
+        .then(async (res) => {
+          if (res.status == 200) {
+            const body = await res.json();
+            
+            this.setState({
+              result: 'success', 
+              userData: body.user,
+              isLoading: false
+            })
+          } else {
+            console.log('res !200')
+            this.setState({
+              result: '!success', 
+              isLoading: false
+            })
+          }
+        })
+        .catch(err => {
+          console.trace();
+          this.setState({
+            result: '!success catch', 
+            isLoading: false
+          })
+        });
+      }
+    )
+  }
+
+  componentDidMount() {
+    if (this.props.isLogin) {
+      this.getUserId();
+    }
   }
 
   render() {
-    console.log(this.props.mainProps)
-    return (
-      <div style={{marginTop: 88+"px"}}>
-        <div className={styles.headerContainer}>
-          <div className={styles.headerContentTop}>
-            <LeftHeader />
-            <SearchBar isLogin={this.props.isLogin}/>
-            <RightHeader isLogin={this.props.isLogin} mainProps={this.props.mainProps} userid={this.props.userid}/>
+    if (this.state.isLoading && this.state.result != 'success') {
+      return <LoadingPage />
+    } else {
+      return (
+        <div style={{marginTop: 88+"px"}}>
+          <div className={styles.headerContainer}>
+            <div className={styles.headerContentTop}>
+              <LeftHeader />
+              <SearchBar isLogin={this.props.isLogin}/>
+              {console.log(this.state.userData)}
+              <RightHeader isLogin={this.props.isLogin} mainProps={this.props.mainProps} {...this.state.userData != null ? {userData: this.state.userData} : {userData: null}}/>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
   };
 };
 
