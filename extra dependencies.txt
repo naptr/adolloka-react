@@ -1,0 +1,7 @@
+query-string: https://github.com/sindresorhus/query-string
+react-lottie: https://github.com/chenqingspring/react-lottie
+react-loading: https://github.com/fakiolinho/react-loading
+react-helmet: https://github.com/nfl/react-helmet
+styled-components: https://github.com/styled-components/styled-components
+react-bootstrap-icons: https://github.com/ismamz/react-bootstrap-icons
+react-loading-skeleton: https://github.com/dvtng/react-loading-skeleton

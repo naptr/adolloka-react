@@ -15,4 +15,345 @@
   width: 100%;
   margin: 0px auto;
 }
+
+.userInfoContainer {
+  width: 1190px;
+  margin: 40px auto 0;
+}
+
+/* Dashboard Styles */
+.userInformationBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.userDashboardMenu {
+  width: 20%;
+  height: 865px;
+  display: block;
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 1px 6px 0px rgba(108, 117, 125, 0.3);
+          box-shadow: 0px 1px 6px 0px rgba(108, 117, 125, 0.3);
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.dashboardUserInfo {
+  width: 100%;
+  padding: 12px 12px 12px 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.dashboardUserInfo img {
+  width: 48px;
+  height: 48px;
+  margin-right: 8px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.dashboardNavigationUserName {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.dashboardNavigationUserName h5, .dashboardNavigationUserName h6 {
+  margin: 0;
+}
+
+.dashboardUserMenu {
+  height: 304px;
+  border-top: 1px solid rgba(108, 117, 125, 0.3);
+  border-bottom: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+/* Main Dashboard */
+.dashboardContainer {
+  margin-left: 24px;
+}
+
+.dashboardUserName {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.dashboardContentContainer {
+  width: 940px;
+  border-radius: 8px;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.dashboardContentTabSection {
+  position: relative;
+}
+
+.dashboardContentTabSectionHolder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  border-bottom: 1px solid rgba(108, 117, 125, 0.3);
+  min-height: 48px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.activeTabButton {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 52px;
+  padding: 16px 24px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #3A86FF;
+  text-transform: capitalize;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.nonActiveTabButton {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 52px;
+  padding: 16px 24px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #6c757d;
+  text-transform: capitalize;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Settings View */
+.dashboardViewContainer {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 16px 0px;
+  max-height: 607px;
+}
+
+.settingsPhotoBox {
+  display: block;
+  max-width: 322px;
+  padding: 16px;
+}
+
+.settingsViewPhotoSection {
+  display: block;
+  max-width: 322px;
+  padding: 16px;
+}
+
+.photoUploadSection {
+  display: block;
+  position: relative;
+  padding: 16px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(108, 117, 125, 0.3);
+          box-shadow: 0px 1px 4px 0px rgba(108, 117, 125, 0.3);
+  cursor: default;
+  margin: 0px 0px 24px;
+}
+
+.photoUploadSection p {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.photoUploadInput {
+  position: absolute;
+  top: 290px;
+  height: 40px;
+  width: 258px;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.photoWrapper {
+  border-radius: 4px;
+  background-image: none;
+  display: block;
+  height: 258px;
+  width: 258px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.photoFrame {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+}
+
+.photoUploadButton {
+  color: #6c757d;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.75rem;
+  height: 40px;
+  line-height: 24px;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 700;
+  outline: none;
+  padding: 0px 16px;
+  -webkit-transition: background 0.8 ease 0s;
+  transition: background 0.8 ease 0s;
+  cursor: pointer;
+  display: block;
+  background: radial-gradient(circle, transparent 1%, transparent 1%) center center/15000% transparent;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  text-indent: initial;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.photoUploadInformation {
+  font-size: 12px;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.passwordButton {
+  color: #6c757d;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.75rem;
+  height: 40px;
+  line-height: 24px;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 700;
+  outline: none;
+  padding: 0px 16px;
+  -webkit-transition: background 0.8 ease 0s;
+  transition: background 0.8 ease 0s;
+  cursor: pointer;
+  display: block;
+  background: radial-gradient(circle, transparent 1%, transparent 1%) center center/15000% transparent;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  text-indent: initial;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.passwordButton:hover {
+  color: rgba(108, 117, 125, 0.5);
+}
+
+.passwordButton span {
+  display: block;
+  font-size: inherit;
+  opacity: 1;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  top: 0px;
+  -webkit-transition: opacity 0.3s linear 0s, top 0.3s, linear 0s;
+  transition: opacity 0.3s linear 0s, top 0.3s, linear 0s;
+  white-space: nowrap;
+}
+
+.settingsViewInformationSection {
+  display: block;
+  padding: 16px;
+}
+
+.userInformationMainTitleWrapper {
+  margin-bottom: 32px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.userInformationMainTitle {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: block;
+  position: relative;
+  line-height: 20px;
+  color: #6c757d;
+  text-decoration: initial;
+  margin-right: 12px;
+}
+
+.userInformationChangeLink {
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #3A86FF;
+}
+
+.userInformationNameWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 32px;
+  font-size: 0.8125rem;
+}
+
+.userInformationTitle {
+  font-family: 'Open Sans', sans-serif;
+  width: 114px;
+}
+
+.userInformationContent {
+  font-family: 'Open Sans', sans-serif;
+  margin-right: 12px;
+}
+
+/* Address View */
 /*# sourceMappingURL=User.module.css.map */

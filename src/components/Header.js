@@ -3,7 +3,7 @@ import
   { useState, 
     // useHistory
   } from 'react';
-// import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { 
   Search, 
@@ -11,9 +11,9 @@ import {
   BellFill,
   EnvelopeFill
 } from 'react-bootstrap-icons';
-import LoadingPage from '../components/Assets/LoadingPage';
 import Logo from '../components/Assets/Logo';
 import styles from '../styles/Header/Header.module.css';
+import { MAKE_LOGOUT } from '../constant/CONSTANT';
 
 
 const LeftHeader = () => {
@@ -70,7 +70,7 @@ class SearchBar extends React.Component {
                 <button
                   type="button"
                   className={styles.searchBarButton}
-                  ><Search /></button>
+                ><Search color='rgba(108, 117, 125)'/></button>
               </div>
             </div>
           </div>
@@ -106,11 +106,18 @@ const Button = (props) => {
 const RightHeader = (props) => {
   const [shopButtonHovered, setShopButtonHovered] = useState(false);
   const [accountButtonHovered, setAccountButtonHovered] = useState(false);
-  
+  const { 
+    isLogin, 
+    mainProps, 
+    currentUserData, 
+    anotherProps 
+  } = props;
 
-  if (props.isLogin) {
+
+  if (isLogin) {
     return (
       <>
+      {/* {console.log(props)} */}
         <div className={styles.buttonsContainer}>
           <div className={styles.buttonLoggedIn}>
             <Button buttonName={CartFill} />
@@ -126,7 +133,16 @@ const RightHeader = (props) => {
         </div>
         <div 
           className={styles.userButtonContainer} 
-          onClick={() => props.mainProps.history.push(`/user/${props.userData != null ? props.userData.id : null}`)}
+          // onClick={() => props.mainProps.push(`/user/${props.userData != null ? props.userData.id : null}`)}
+          onClick={() => {
+
+            // sessionStorage.removeItem('token');
+            // sessionStorage.removeItem('currentUserData');
+            anotherProps.makeLogout();
+            console.log(props);
+            return <Redirect to="/" />
+            // console.log(props.anotherProps)
+          }}
           onMouseEnter={() => setShopButtonHovered(true)}
           onMouseLeave={() => setShopButtonHovered(false)}
         >
@@ -134,17 +150,20 @@ const RightHeader = (props) => {
             className={styles.userButton}
             {...shopButtonHovered ? { style: { color: "#3A86FF", backgroundColor: "rgba(49, 53, 59, 0.12)" } } : { style: null }}
           >
-            <img src="/assets/store-icon.png" alt="Store" style={{width: 25+'px', height: 25+'px'}}/>
+            <img src={"/assets/store-icon.png"} alt="Store" style={{width: 25+'px', height: 25+'px'}}/>
             <div 
               className={styles.buttonText} 
             >
-              Toko
+              adolloka shop
             </div>
           </div>
         </div>
         <div 
           className={styles.userButtonContainer}
-          onClick={() => props.mainProps.history.push(`/user/${props.userData != null ? props.userData.id : null}`)}
+          onClick={() => mainProps.push({
+            pathname: `/user/${currentUserData.user.id}`, 
+            state: currentUserData
+          })}
           onMouseEnter={() => setAccountButtonHovered(true)}
           onMouseLeave={() => setAccountButtonHovered(false)}
         >
@@ -154,11 +173,11 @@ const RightHeader = (props) => {
           >
             {/* <div><Link to={`/user/${props.userid}`}>User {props.userid != null ? props.userid : null}</Link></div> */}
             {/* <div><Link to={`/user/${props.userData != null ? props.userData.id : null}`}>{props.userData != null ? props.userData.username : null}</Link></div> */}
-            <img src="/assets/user-icon.png" alt="User" style={{width: 25+'px', height: 25+'px'}}/>
+            <img src={currentUserData === null ? null : (currentUserData.user.profile === undefined ? (currentUserData.profile.foto === null ? "/assets/user-alt-icon.png" : currentUserData.profile.foto.foto) : "/assets/user-alt-icon.png") } alt={ currentUserData === null ? null : currentUserData.user.username} style={{width: 25+'px', height: 25+'px'}} />
             <div 
               className={styles.buttonText}
             >
-              {props.userData != null ? props.userData.username : null}
+              { currentUserData === null ? null : currentUserData.user.username }
             </div>
           </div>
         </div>
@@ -200,76 +219,94 @@ class Header extends React.Component {
     }
   }
 
-  getUserId = () => {
-    this.setState(
-      {isLoading: true}, 
-      () => {
-        fetch(
-          'https://adolloka.herokuapp.com/api/user', 
-          {
-            headers: {
-              'Authorization': `Bearer ${this.props.token}`
-            }
-          }
-        )
-        .then(async (res) => {
-          if (res.status == 200) {
-            const body = await res.json();
+  // getUserId = () => {
+  //   this.setState(
+  //     {isLoading: true}, 
+  //     () => {
+  //       fetch(
+  //         'https://adolloka.herokuapp.com/api/user', 
+  //         {
+  //           headers: {
+  //             'Authorization': `Bearer ${this.props.token}`
+  //           }
+  //         }
+  //       )
+  //       .then(async (res) => {
+  //         if (res.status == 200) {
+  //           const body = await res.json();
             
-            this.setState({
-              result: 'success', 
-              userData: body.user,
-              isLoading: false
-            })
-          } else {
-            console.log('res !200')
-            this.setState({
-              result: '!success', 
-              isLoading: false
-            })
-          }
-        })
-        .catch(err => {
-          console.trace();
-          this.setState({
-            result: '!success catch', 
-            isLoading: false
-          })
-        });
-      }
-    )
-  }
+  //           this.setState({
+  //             result: 'success', 
+  //             userData: body.user,
+  //             isLoading: false
+  //           })
+  //         } else {
+  //           console.log('res !200')
+  //           this.setState({
+  //             result: '!success', 
+  //             isLoading: false
+  //           })
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.trace();
+  //         this.setState({
+  //           result: '!success catch', 
+  //           isLoading: false
+  //         })
+  //       });
+  //     }
+  //   )
+  // }
 
-  componentDidMount() {
-    if (this.props.isLogin) {
-      this.getUserId();
-    }
-  }
+  // componentDidMount() {
+  //   // if (this.props.isLogin) {
+  //   //   this.getUserId();
+  //   // }
+  //   // console.log(this.props);
+  //   console.log(this.props.currentUserData)
+  // }
 
   render() {
-    if (this.state.isLoading && this.state.result != 'success') {
-      return <LoadingPage />
-    } else {
+    // if (this.state.isLoading && this.state.result != 'success') {
+    //   return <LoadingPage />
+    // } else {
       return (
-        <div style={{marginTop: 88+"px"}}>
+        <div style={{marginTop: 88+"px"}} className={styles.spacer}>
           <div className={styles.headerContainer}>
             <div className={styles.headerContentTop}>
               <LeftHeader />
               <SearchBar isLogin={this.props.isLogin}/>
-              {console.log(this.state.userData)}
-              <RightHeader isLogin={this.props.isLogin} mainProps={this.props.mainProps} {...this.state.userData != null ? {userData: this.state.userData} : {userData: null}}/>
+              {/* {console.log(this.state.userData)} */}
+              <RightHeader 
+                isLogin={this.props.isLogin} 
+                mainProps={this.props.mainProps} 
+                currentUserData={this.props.currentUserData} 
+                anotherProps={this.props}
+              />
             </div>
           </div>
         </div>
       )
-    }
+    // }
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    isLogin: state.isLogin
+    isLogin: state.isLogin,
+    currentUserData: state.currentUserData
   }
 }
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    makeLogout: () => {
+      dispatch({
+        type: MAKE_LOGOUT
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

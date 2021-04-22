@@ -1,0 +1,144 @@
+# Query: userData
+# ContextLines: 1
+
+64 results - 4 files
+
+src/store.js:
+   5    token: null,
+   6:   currentUserData: null,
+   7    isLogin: false
+
+  19          ...state, 
+  20:         currentUserData: action.currentUserData
+  21        }
+
+  31          token: null, 
+  32:         currentUserData: null
+  33        }
+
+src/components/Header.js:
+  128            className={styles.userButtonContainer} 
+  129:           // onClick={() => props.mainProps.push(`/user/${props.userData != null ? props.userData.id : null}`)}
+  130            onClick={() => {
+
+  154            onClick={() => props.mainProps.push({
+  155:             pathname: `/user/${props.currentUserData.user.id}`, 
+  156:             state: props.currentUserData
+  157            })}
+
+  165              {/* <div><Link to={`/user/${props.userid}`}>User {props.userid != null ? props.userid : null}</Link></div> */}
+  166:             {/* <div><Link to={`/user/${props.userData != null ? props.userData.id : null}`}>{props.userData != null ? props.userData.username : null}</Link></div> */}
+  167:             <img src={ props.currentUserData.profile.foto === null ? "/assets/user-alt-icon.png" : props.currentUserData.profile.foto} alt={props.currentUserData.user.username} style={{width: 25+'px', height: 25+'px'}} />
+  168              <div 
+
+  170              >
+  171:               {props.currentUserData.username}
+  172              </div>
+
+  207        isLoading: false, 
+  208:       userData: null, 
+  209        result: '',
+
+  230    //             result: 'success', 
+  231:   //             userData: body.user,
+  232    //             isLoading: false
+
+  257    //   // console.log(this.props);
+  258:   //   console.log(this.props.currentUserData)
+  259    // }
+
+  270                <SearchBar isLogin={this.props.isLogin}/>
+  271:               {/* {console.log(this.state.userData)} */}
+  272                <RightHeader 
+
+  274                  mainProps={this.props.mainProps} 
+  275:                 currentUserData={this.props.currentUserData} 
+  276                  anotherProps={this.props}
+
+  288      isLogin: state.isLogin,
+  289:     currentUserData: state.currentUserData
+  290    }
+
+src/components/Home/index.js:
+   16        isLoading: true, 
+   17:       // userData: [], 
+   18        getResult: null
+
+   21  
+   22:   getUserData = () => {
+   23      fetch(
+
+   33          const body = await res.json();
+   34:         const userData = body;
+   35:         // console.log(typeof(userData));
+   36          sessionStorage.setItem('token', this.props.location.state.token)
+   37:         this.props.addUserData(userData);
+   38          this.setState({
+
+   69    //       .then(async (res) => {
+   70:   //         var userData;
+   71    //         if (res.status == 200) {
+   72    //           const body = await res.json();
+   73:   //           userData = body;
+   74    //         } else {
+   75:   //           userData = []
+   76    //           console.trace();
+
+   78    //         this.setState({
+   79:   //           userData: userData, 
+   80    //           getResult: 'success',
+
+   85    //         this.setState({
+   86:   //           userData: [], 
+   87    //           isLoading: false
+
+   98      if (this.props.isLogin) {
+   99:       this.getUserData();
+  100        if (this.props.location.state !== undefined) {
+
+  143    return ({
+  144:     addUserData: (userData) => {
+  145        dispatch({
+  146          type: ADD_USER_DATA,
+  147:         currentUserData: userData
+  148        })
+
+src/components/User/index.js:
+   32  
+   33:   // updateUserData = () => {
+   34    //   fetch(
+
+   47  
+   48:   // getUserData = () => {
+   49    //   fetch(
+
+   65    componentDidMount() {
+   66:     // this.getUserData();
+   67      this.setState({isLoading: false})
+
+   69  
+   70:     if (this.props.currentUserData !== null) {
+   71:       sessionStorage.setItem('currentUserData', JSON.stringify(this.props.currentUserData));
+   72:       // const currentUserData = sessionStorage.getItem('currentUserData');
+   73:       // console.log(JSON.parse(currentUserData))
+   74:     } else if (this.props.currentUserData === null) {
+   75:       const userData = sessionStorage.getItem('currentUserData');
+   76:       this.props.addUserData(JSON.parse(userData))
+   77        // console.log(this.props)
+   78:       console.log(userData)
+   79      }
+
+  100                
+  101:               <MainView token={this.props.token} currentUserData={this.props.currentUserData}/>
+  102              </div>
+
+  118      isLogin: state.isLogin, 
+  119:     currentUserData: state.currentUserData
+  120    }
+
+  124    return {
+  125:     addUserData: (userData) => {
+  126        dispatch({
+  127          type: ADD_USER_DATA, 
+  128:         currentUserData: userData
+  129        })
