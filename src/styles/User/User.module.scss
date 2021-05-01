@@ -253,7 +253,7 @@
   padding: 16px;
 }
 
-.userInformationMainTitleWrapper {
+.userInformationMainWrapper {
   margin-bottom: 32px;
   display: flex;
   flex-direction: row;
@@ -261,6 +261,7 @@
 }
 
 .userInformationMainTitle {
+  margin: 0;
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
   font-size: 0.875rem;
@@ -269,6 +270,7 @@
   line-height: 20px;
   color: rgb(108, 117, 125);
   text-decoration: initial;
+  // margin-top: 12px;
   margin-right: 12px;
 }
 
@@ -297,6 +299,239 @@
 .userInformationContent {
   font-family: 'Open Sans', sans-serif;
   margin-right: 12px;
+}
+
+.uploadLoadingContainer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.backgroundOverlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(49, 53, 59);
+  opacity: 0.68;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+  z-index: 50;
+  will-change: opacity;
+  transition: opacity 300ms cubic-bezier(0, 0, 0.3, 1) 0s;
+}
+
+.modalOverlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(49, 53, 59);
+  opacity: 0.68;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+  z-index: 50;
+  will-change: opacity;
+  transition: opacity 300ms cubic-bezier(0, 0, 0.3, 1) 0s;
+}
+
+.modalBox {
+  display: block;
+  z-index: 60;
+  opacity: 1;
+  min-width: 500px;
+  background: rgb(255, 255, 255);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  transition: opacity 0.2s ease 0s;
+  box-shadow: 0px 1px 6px rgba(108, 117, 125, 0.3);
+  max-width: 460px;
+  line-height: 1.5;
+}
+
+.closeButton {
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  border: none;
+  appearance: none;
+}
+
+.modalBoxTitle {
+  display: block;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.5rem;
+  line-height: 30px;
+  text-decoration: initial;
+  margin: 0px 0px 16px;
+}
+
+.modalBoxSubtitle {
+  max-width: 360px;
+  margin: 0px auto;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+}
+
+.modalBoxFormWrapper {
+  text-align: left;
+  margin: 24px 0px 32px;
+}
+
+.nameLabel {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  display: inline-block;
+  pointer-events: none;
+  margin-bottom: 4px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.formInputWrapper {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.inputWrapper {
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  flex: 1 1 0%;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 280ms ease 0s;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.inputBox {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.globalStyling {
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  color: rgb(108, 117, 125);
+  font-family: 'Open Sans', sans-serif;
+  background-color: transparent;
+  line-height: 22px;
+  border: none;
+  outline: none;
+  height: auto;
+  font-size: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.nameInputLink {
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #3A86FF;
+  width: 100%;
+}
+
+.genderFormWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.genderFormWrapper {
+  display: flex;
+  align-items: center;
+  margin: 0px 21px;
+}
+
+.genderLogo {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 7px;
+}
+
+.submitButtonDisabled {
+  color: #FFF;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 1rem;
+  height: 48px;
+  line-height: 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  outline: none;
+  padding: 0px 16px;
+  background-color: #3A86FF;
+  // background: 0.8s ease 0s;
+  opacity: 0.5;
+  cursor: not-allowed;
+  display: inline-block;
+  border: none;
+  text-indent: initial;
+  position: relative;
+  width: 160px;
+}
+
+.submitButtonEnabled {
+  color: #FFF;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 1rem;
+  height: 48px;
+  line-height: 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  outline: none;
+  padding: 0px 16px;
+  background-color: #3A86FF;
+  // background: 0.8s ease 0s;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  text-indent: initial;
+  position: relative;
+  width: 160px;
+  
+  &:hover {
+    background-color: #3A78FF;
+  }
+}
+
+.radioButtonWrapper {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.radioButtonInput {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  position: absolute;
+  appearance: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.radioButtonSpan {
+  
 }
 
 /* Address View */

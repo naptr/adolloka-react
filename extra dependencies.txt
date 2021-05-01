@@ -5,3 +5,4 @@ react-helmet: https://github.com/nfl/react-helmet
 styled-components: https://github.com/styled-components/styled-components
 react-bootstrap-icons: https://github.com/ismamz/react-bootstrap-icons
 react-loading-skeleton: https://github.com/dvtng/react-loading-skeleton
+react-loader-spinner: https://github.com/mhnpd/react-loader-spinner

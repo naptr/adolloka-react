@@ -143,8 +143,8 @@ class MainViewWithContext extends React.Component {
   // }
 
   render() {
-    const values = queryString.parse(this.props.globalProps.location.search)
     const props = this.props.globalProps
+    const values = queryString.parse(props.location.search)
     // console.log(this.isEmpty(values));
 
     return (
