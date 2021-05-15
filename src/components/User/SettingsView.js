@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import Loader from 'react-loader-spinner';
+// import 'react-dropdown/style.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Link } from 'react-router-dom';
 import styles from '../../styles/User/User.module.css';
 import { X } from 'react-bootstrap-icons';
 
+// Loading Components
+// Loading Skeleton
 const LoadingView = (props) => {
   const { width, height } = props;
   
@@ -18,6 +21,7 @@ const LoadingView = (props) => {
   // return null
 }
 
+// Loading Page
 const LoadingViewUpload = () => {
   return (
     <div className={styles.uploadLoadingContainer}>
@@ -29,6 +33,7 @@ const LoadingViewUpload = () => {
   )
 }
 
+// Some Functions
 const dateFormatter = (date) => {
   var splittedDate = date.split("-");
   var year = splittedDate[0];
@@ -101,6 +106,25 @@ const phoneFormatter = (phoneNum) => {
   return `${formattedDigit}${phoneNum.slice(1)}`
 }
 
+// Custom components
+const Dropdown = (props) => {
+  const [defaultBool, setDefaultBool] = useState(false);
+
+  return (
+    <>
+      <div style={{ width: props.width+'px' }} className={`${styles.dropdownDefault} ${styles.dateDropdown}`} >
+        <button className={`${styles.defaultButton} ${styles.dateButton}`}>
+          <label className={`${styles.defaultLabel} ${styles.dateLabel}`}>
+            {defaultBool ? <span>Date</span> : <span>01</span>}
+          </label>
+        </button>
+        <div>
+
+        </div>
+      </div>
+    </>
+  )
+}
 
 class SettingsView extends React.Component {
   constructor(props) {
@@ -122,11 +146,12 @@ class SettingsView extends React.Component {
         bool: false, 
         showInputBox: false
       },
-      gender: {
-        value: '', 
+      gender: { 
+        value: '',
         bool: false, 
         showInputBox: false
-      }
+      }, 
+      radioSelectedOption: ''
     }
 
     // this.size = React.createRef();
@@ -160,7 +185,7 @@ class SettingsView extends React.Component {
             this.setState({ isLoading: false })
             return null
           } else if (data.profile) {
-            if (data.profile.tgl_lahir === null) {
+            if (data.profile.nama === null && data.profile.tgl_lahir === null && data.profile.gender === null) {
               this.setState({
                 name: {
                   value: '', 
@@ -213,7 +238,7 @@ class SettingsView extends React.Component {
       {uploadLoading: true}, 
       () => {
         fetch(
-          'http://adolloka.herokuapp.com/api/foto/profile/update',
+          'http://adolloka.herokuapp.com/api/user/profile/foto/update',
           {
             method: 'POST', 
             headers: {
@@ -240,6 +265,10 @@ class SettingsView extends React.Component {
     )
   }
   
+  userInfoSubmitButton = () => {
+    
+  }
+
   // Custom method for handling something
   onFileChange = (ev) => {
       console.log(ev.target.files)
@@ -252,6 +281,18 @@ class SettingsView extends React.Component {
     }
   }
 
+  radioHandleChange = (ev) => {
+    const field = ev.target.name;
+    this.setState({ 
+      [field]: {
+        ...[field], 
+        showInputBox: true, 
+        value: ev.target.value
+      } 
+    })
+    this.setState({ radioSelectedOption: ev.target.value});
+  }
+
   handleChange = (ev) => {
     const field = ev.target.name;
     this.setState({ 
@@ -261,6 +302,7 @@ class SettingsView extends React.Component {
         showInputBox: true
       }
     })
+    console.log(ev.target.value)
   }
 
   isFilled = () => {
@@ -281,6 +323,10 @@ class SettingsView extends React.Component {
     this.getUserData();
   }
 
+  componentDidUpdate() {
+    console.log(this.state.gender)
+  }
+
   render() {
     const { 
       uploadedPhoto, 
@@ -290,7 +336,8 @@ class SettingsView extends React.Component {
       showUserInformationModal,
       name, 
       birthdate, 
-      gender
+      gender, 
+      radioSelectedOption
     } = this.state;
 
     return (
@@ -416,7 +463,7 @@ class SettingsView extends React.Component {
                       <label className={styles.nameLabel}>Name</label>
                       <div className={styles.formInputWrapper}>
                         <div className={styles.inputWrapper}>
-                          <input disabled name="name" className={`${styles.inputBox} ${styles.globalStyling}`} value={genderFormatter(name.value)} />
+                          <input disabled name="name" className={`${styles.inputBox} ${styles.globalStyling}`} value={name.value} />
                         </div>
                       </div>
                     </> :
@@ -439,7 +486,7 @@ class SettingsView extends React.Component {
                                 }
                               })}
                             >
-                              Add Gender
+                              Add Name
                       </Link></>}
                       </div>
                     </>
@@ -458,10 +505,11 @@ class SettingsView extends React.Component {
                       <div className={styles.formInputWrapper}>
                           {birthdate.showInputBox ?
                             <>
-                              <label className={styles.nameLabel}>Birthdate</label>
-                              <div className={styles.inputWrapper}>
-                                <input name="birthdate" className={`${styles.inputBox} ${styles.globalStyling}`} onChange={this.handleChange} value={birthdate.value} />
-                              </div>
+                              {/* <label className={styles.nameLabel}>Birthdate</label> */}
+                              <Dropdown width={180} value="Day"/>
+                              <Dropdown />
+                              <Dropdown />
+                              {/* <h1>show input box</h1> */}
                             </> :
                             <> 
                             <Link 
@@ -495,7 +543,13 @@ class SettingsView extends React.Component {
                             <div className={styles.genderFormWrapper}>
                               <div className={styles.genderFormWrapper}>
                                 <div className={styles.radioButtonWrapper}>
-
+                                  <label className={styles.radioButtonWrapper}>
+                                    <input type="radio" className={styles.radioButtonInput} checked={radioSelectedOption === 'L'} onChange={this.radioHandleChange} value='L' name="gender" />
+                                    <span 
+                                      className={`${styles.radioButtonSpan} ${styles.afterSelected}`}  
+                                    >
+                                    </span>
+                                  </label>
                                 </div>
                                 <img src="/assets/male.svg" className={styles.genderLogo} alt="male" />
                                 <label>Male</label>
@@ -503,8 +557,11 @@ class SettingsView extends React.Component {
                               <div className={styles.genderFormWrapper}>
                                 <div className={styles.radioButtonWrapper}>
                                   <label className={styles.radioButtonWrapper}>
-                                    <input type="radio" className={styles.radioButtonInput} />
-                                    <span className={styles.radioButtonSpan}></span>
+                                    <input type="radio" className={styles.radioButtonInput} checked={radioSelectedOption === 'P'} onChange={this.radioHandleChange} value='P' name="gender" />
+                                    <span
+                                      className={`${styles.radioButtonSpan} ${styles.afterSelected}`}
+                                    >
+                                    </span>
                                   </label>
                                 </div>
                                 <img src="/assets/female.svg" className={styles.genderLogo} alt="female" />
