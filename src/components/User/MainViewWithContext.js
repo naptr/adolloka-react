@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import styled from 'styled-components';
 import DashboardNavigation from './DashboardNavigation';
@@ -44,10 +44,32 @@ const IndicatorLine = styled.div`
 
 const DashboardTabSection = (props) => {
   const { values, currentUserData, tabWidth, navigation } = props;
+
+  const tabCondition = (param) => {
+    if (param === 'width') {
+      if (values.tab === 'address') {
+        return 106
+      } else if (values.tab === 'settings' || JSON.stringify(values) === '{}') {
+        return 159
+      }
+    } else if (param === 'translateX') {
+      if (values.tab === 'address') {
+        return 159
+      } else if (values.tab === 'settings' || JSON.stringify(values) === '{}') {
+        return 0
+      }
+    }
+  }
+
   const [indicatorLine, setIndicatorLine] = useState({
-    indicatorLineWidth: 0, 
-    indicatorTranslateX: 0
+    indicatorLineWidth: tabCondition('width'), 
+    indicatorTranslateX: tabCondition('translateX')
   })
+
+  useEffect(() => {
+    console.log(indicatorLine);
+  })
+
   return (
     <>
       <div className={styles.dashboardContentTabSection}>
@@ -119,7 +141,10 @@ class MainViewWithContext extends React.Component {
 
   componentDidUpdate() {
     console.log(this.testWidth.current.offsetWidth)
-    
+  }
+
+  componentDidMount() {
+    console.log(this.props);
   }
 
   // isEmpty = (data) => {

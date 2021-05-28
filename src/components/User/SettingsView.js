@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import Loader from 'react-loader-spinner';
@@ -7,6 +7,8 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Link } from 'react-router-dom';
 import styles from '../../styles/User/User.module.css';
 import { X } from 'react-bootstrap-icons';
+import ReactLoading from 'react-loading';
+import { stringify } from 'query-string';
 
 // Loading Components
 // Loading Skeleton
@@ -106,24 +108,46 @@ const phoneFormatter = (phoneNum) => {
   return `${formattedDigit}${phoneNum.slice(1)}`
 }
 
-// Custom components
-const Dropdown = (props) => {
-  const [defaultBool, setDefaultBool] = useState(false);
+const monthFormatter = (value) => {
+  switch (value) {
+    case '01':
+      return 'Januari';
+    case '02':
+      return 'Februari';
+    case '03':
+      return 'Maret';
+    case '04':
+      return 'April';
+    case '05':
+      return 'Mei';
+    case '06':
+      return 'Juni';
+    case '07':
+      return 'Juli';
+    case '08':
+      return 'Agustus';
+    case '09':
+      return 'September';
+    case '10':
+      return 'Oktober';
+    case '11':
+      return 'November';
+    case '12':
+      return 'Desember';
+    default:
+      return value;
+  }
+}
 
-  return (
-    <>
-      <div style={{ width: props.width+'px' }} className={`${styles.dropdownDefault} ${styles.dateDropdown}`} >
-        <button className={`${styles.defaultButton} ${styles.dateButton}`}>
-          <label className={`${styles.defaultLabel} ${styles.dateLabel}`}>
-            {defaultBool ? <span>Date</span> : <span>01</span>}
-          </label>
-        </button>
-        <div>
+const nonYearFormatter = (value) => {
+  var stringifiedValue = value.toString();
 
-        </div>
-      </div>
-    </>
-  )
+  if (stringifiedValue.length < 2) {
+    stringifiedValue = '0'+stringifiedValue
+  }
+
+  // console.log(stringifiedValue);
+  return stringifiedValue;
 }
 
 class SettingsView extends React.Component {
@@ -133,16 +157,37 @@ class SettingsView extends React.Component {
     this.state = {
       currentUserData: null,
       uploadedPhoto: null,
-      isLoading: true,
-      uploadLoading: false, 
-      showUserInformationModal: true,
+      userDataLoading: true,
+      uploadLoading: false,
+      submitDataLoading: false, 
+      submitAddressLoading: false,
+      showUserBioInformationModal: false,
+      showUserContactInformationModal: false,
+      showUserAddressInformationModal: false,
       name: {
         value: '', 
         bool: false, 
-        showInputBox: false
+        showInputBox: false, 
+        inputFocused: false
       },
       birthdate: {
-        value: '', 
+        value: {
+         day: {
+           value: '', 
+           bool: false,
+           dropdownOpen: false
+         }, 
+         month: {
+           value: '', 
+           bool: false, 
+           dropdownOpen: false
+         }, 
+         year: {
+           value: '',
+           bool: false, 
+           dropdownOpen: false
+         }
+        }, 
         bool: false, 
         showInputBox: false
       },
@@ -151,10 +196,84 @@ class SettingsView extends React.Component {
         bool: false, 
         showInputBox: false
       }, 
-      radioSelectedOption: ''
+      radioSelectedOption: '',
+      email: {
+        value: '',
+        inputFocused: false
+      }, 
+      phoneNumber: {
+        value: '',
+        inputFocused: false
+      },
+      address: {
+        value: '',
+        inputFocused: false
+      }
     }
 
     // this.size = React.createRef();
+  }
+
+  // Custom components
+  Dropdown = (props) => {
+    const { width, value, dateSize, startPoint, partOf } = props;
+    const { dropdownOpen } = this.state.birthdate.value[partOf];
+
+    if (this.state.birthdate.value[partOf] !== undefined) {
+      return (
+        <>
+          <div style={{width: width+'px'}} className={`${dropdownOpen ? styles.dropdownOpened : styles.dropdownDefault} ${styles.dateDropdown}`} >
+            <button className={`${styles.defaultButton} ${styles.dateButton}`} onClick={() => {
+              console.log(this.state.birthdate);
+              this.setState({
+                birthdate: {
+                  ...this.state.birthdate,
+                  value: {
+                    ...this.state.birthdate.value,
+                    [partOf]: {
+                      value: value,
+                      bool: true,
+                      dropdownOpen: !this.state.birthdate.value[partOf].dropdownOpen
+                    }
+                  }, 
+                  showInputBox: true
+                }
+              });
+            }}>
+              <label className={`${styles.defaultLabel} ${styles.dateLabel}`}>
+                {<span>{this.state.birthdate.value[partOf] === this.state.birthdate.value.month ? monthFormatter(value.toString()) : value}</span>}
+              </label>
+            </button>
+            <div className={`${styles.dateNumberListWrapper} ${styles.dateNumberList}`}>
+              <ul role="listbox" {...dropdownOpen ? { tabIndex: "-1" } : null} className={styles.dateListWrapper}>
+                {[...Array(dateSize).keys()].map((el, key) => (
+                  <li role="option" key={key} className={styles.dateListButton}>
+                    <button onClick={() => {
+                      console.log(el+startPoint);
+                      this.setState({
+                        birthdate: {
+                          ...this.state.birthdate, 
+                          value: {
+                            ...this.state.birthdate.value, 
+                            [partOf]: {
+                              bool: true, 
+                              value: (this.state.birthdate.value[partOf] === this.state.birthdate.value.year ? el+startPoint : nonYearFormatter(el+startPoint)).toString(),
+                              dropdownOpen: !this.state.birthdate.value[partOf].dropdownOpen
+                            }
+                          } 
+                        }
+                      });
+                    }}>
+                      <span>{this.state.birthdate.value[partOf] === this.state.birthdate.value.month ? monthFormatter((nonYearFormatter(el+startPoint)).toString()) : nonYearFormatter(el+startPoint)}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </>
+      )
+    }
   }
 
   // Fetching data method
@@ -162,7 +281,8 @@ class SettingsView extends React.Component {
     const { token } = this.props;
 
     // this.setState(
-      // { isLoading: true }, 
+      // { userDataLoading: true }, 
+      console.log(this.state)
       fetch(
         'https://adolloka.herokuapp.com/api/user', 
         {
@@ -178,28 +298,32 @@ class SettingsView extends React.Component {
           data = body;
 
           this.setState({
-            currentUserData: data
+            currentUserData: data, 
+            email: {
+              value: data.user.email
+            }, 
+            phoneNumber: {
+              value: data.user.no_hp
+            }, 
+            address: {
+              ...this.state.address,
+              value: (data.user.profile === null ? [] : (data.alamat.length === 0 ? [] : data.alamat[0].alamat))
+            }
           })
+          // console.log(data.alamat.length === 0)
 
           if (data.user.profile === null) {
-            this.setState({ isLoading: false })
+            this.setState({ userDataLoading: false })
             return null
           } else if (data.profile) {
             if (data.profile.nama === null && data.profile.tgl_lahir === null && data.profile.gender === null) {
               this.setState({
                 name: {
                   value: '', 
-                  bool: false
+                  bool: false, 
+                  showInputBox: false
                 },
-                birthdate: {
-                  value: '', 
-                  bool: false
-                }, 
-                gender: {
-                  value: '', 
-                  bool: false
-                },
-                isLoading: false
+                userDataLoading: false
               })  
             } else {
               this.setState({
@@ -215,15 +339,16 @@ class SettingsView extends React.Component {
                   value: data.profile.gender, 
                   bool: true
                 },
-                isLoading: false
+                userDataLoading: false
               })
             }
           } else {
-            this.setState({ isLoading: false })
+            this.setState({ userDataLoading: false })
             return null
           }
         }
         console.log(this.state.currentUserData)
+        console.log(this.state)
       })
       .catch(err => console.log(err))
     // )
@@ -265,8 +390,101 @@ class SettingsView extends React.Component {
     )
   }
   
-  userInfoSubmitButton = () => {
-    
+  userBioInfoSubmitButton = () => {
+    const { token } = this.props;
+    const { 
+      name, 
+      birthdate, 
+      gender 
+    } = this.state;
+
+    var formData = new FormData();
+    formData.append('nama', name.value);
+    formData.append('gender', gender.value);
+    if (birthdate.bool) {
+      formData.append('tgl_lahir', birthdate.value);
+    } else {
+      formData.append('tgl_lahir', `${birthdate.value.year.value}-${birthdate.value.month.value}-${birthdate.value.day.value}`)
+    }
+
+    this.setState(
+      {submitDataLoading: true}, 
+      () => {
+        fetch(
+          'http://adolloka.herokuapp.com/api/user/profile/biodata/update', 
+          {
+            method: 'POST', 
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }, 
+            body: formData
+          }
+        )
+        .then(async res => {
+          if (res.status === 200) {
+            this.setState({
+              submitDataLoading: false, 
+              showUserBioInformationModal: false
+            });
+            console.log('Updating data success')
+          }
+        })
+        .catch(err => {
+          this.setState({
+            submitDataLoading: false, 
+            showUserBioInformationModal: false
+          });
+          alert('Something went wrong')
+        })
+      }
+    )
+  }
+
+  userContactInfoSubmitButton = () => {
+    console.log(this.state.email);
+    console.log(this.state.phoneNumber);
+  }
+
+  userAddressInfoSubmitButton = () => {
+    const { token } = this.props;
+    const { address, currentUserData } = this.state;
+
+    var formData = new FormData();
+    formData.append('alamat', address.value);
+    formData.append('penerima', (currentUserData.alamat.length === 0 ? (currentUserData.profile === null ? 'Null' : currentUserData.profile.nama) : currentUserData.alamat[0].penerima))
+    formData.append('no_hp', (currentUserData.alamat.length === 0 ? (currentUserData.user.no_hp) : currentUserData.alamat[0].no_hp))
+
+    this.setState(
+      {submitAddressLoading: true}, 
+      () => {
+        fetch(
+          'http://adolloka.herokuapp.com/api/user/profile/alamat/update',
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            body: formData
+          }
+        )
+        .then(async res => {
+          if (res.status === 200) {
+            this.setState({
+              submitAddressLoading: false, 
+              showUserAddressInformationModal: false
+            })
+            console.log('Updating data Success')
+          }
+        })
+        .catch(err => {
+          this.setState({
+            submitAddressLoading: false, 
+            showUserAddressInformationModal: false
+          })
+          alert('Upadate data Failed')
+        })
+      }
+    )
   }
 
   // Custom method for handling something
@@ -285,7 +503,7 @@ class SettingsView extends React.Component {
     const field = ev.target.name;
     this.setState({ 
       [field]: {
-        ...[field], 
+        ...this.state[field], 
         showInputBox: true, 
         value: ev.target.value
       } 
@@ -297,15 +515,32 @@ class SettingsView extends React.Component {
     const field = ev.target.name;
     this.setState({ 
       [field]: {
-        ...[field], 
-        value: ev.target.value, 
-        showInputBox: true
+        value: ev.target.value,
+        // bool: true, 
+        showInputBox: true,
+        inputFocused: true
       }
     })
-    console.log(ev.target.value)
   }
 
-  isFilled = () => {
+  nonBioHandleChange = (ev) => {
+    const field = ev.target.name;
+    this.setState({
+      [field]: {
+        value: ev.target.value, 
+        inputFocused: true
+      }
+    })
+  }
+
+  contactHandleChange = (ev) => {
+    const field = ev.target.name;
+    this.setState({[field]: {
+      value: ev.target.value
+    }})
+  }
+
+  isBioFormFilled = () => {
     const {
       name, 
       birthdate, 
@@ -313,6 +548,29 @@ class SettingsView extends React.Component {
     } = this.state
 
     if (name.value === '' || birthdate.value === '' || gender.value === '') {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  isContactFormFilled = () => {
+    const {
+      email, 
+      phoneNumber
+    } = this.state
+
+    if (email.value === '' || phoneNumber.value === '') {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  isAddressFormFilled = () => {
+    const { address } = this.state
+
+    if (address.value === '') {
       return false
     } else {
       return true
@@ -331,19 +589,27 @@ class SettingsView extends React.Component {
     const { 
       uploadedPhoto, 
       currentUserData, 
-      isLoading, 
-      uploadLoading, 
-      showUserInformationModal,
+      userDataLoading, 
+      uploadLoading,
+      submitDataLoading, 
+      submitAddressLoading,
+      showUserBioInformationModal,
+      showUserContactInformationModal,
+      showUserAddressInformationModal,
       name, 
       birthdate, 
       gender, 
-      radioSelectedOption
+      radioSelectedOption,
+      email, 
+      phoneNumber, 
+      address
     } = this.state;
 
     return (
       <>
+      {console.log(this.state)}
         {
-          isLoading ? 
+          userDataLoading ? 
           <>
             <div className={styles.settingsViewPhotoSection}>
               <LoadingView width={290} height={290} />
@@ -398,7 +664,7 @@ class SettingsView extends React.Component {
               <div className={styles.settingsViewInformationSection}>
                 <div className={styles.userInformationMainWrapper} style={{marginTop: 12+'px'}}>
                   <p className={styles.userInformationMainTitle}>Ubah Biodata Diri</p>
-                  <Link className={styles.userInformationChangeLink} onClick={() => this.setState({showUserInformationModal: true})}>Change</Link>
+                  <Link to="#" className={styles.userInformationChangeLink} onClick={() => this.setState({showUserBioInformationModal: true})}>Change</Link>
                 </div>
                 <div className={styles.userInformationNameWrapper}>
                   <span className={styles.userInformationTitle}>Nama</span>
@@ -414,7 +680,7 @@ class SettingsView extends React.Component {
                 </div>
                 <div className={styles.userInformationMainWrapper}>
                   <p className={styles.userInformationMainTitle}>Ubah Informasi Kontak</p>
-                  <Link className={styles.userInformationChangeLink}>Change</Link>
+                  <Link to="#" className={styles.userInformationChangeLink} onClick={() => this.setState({showUserContactInformationModal: true})}>Change</Link>
                 </div>
                 <div className={styles.userInformationNameWrapper}>
                   <span className={styles.userInformationTitle}>Email</span>
@@ -424,6 +690,14 @@ class SettingsView extends React.Component {
                   <span className={styles.userInformationTitle}>Nomor Telepon</span>
                   <span className={styles.userInformationContent}>{currentUserData === null ? null : phoneFormatter(currentUserData.user.no_hp)}</span>
                 </div>
+                <div className={styles.userInformationMainWrapper}>
+                  <p className={styles.userInformationMainTitle}>Ubah Informasi Alamat</p>
+                  <Link to="#" className={styles.userInformationChangeLink} onClick={() => this.setState({ showUserAddressInformationModal: true })}>Change</Link>
+                </div>
+                <div className={styles.userInformationNameWrapper}>
+                  <span className={styles.userInformationTitle}>Alamat</span>
+                  {/* <span className={styles.userInformationContent}>{currentUserData === null ? null : (currentUserData.user.profile === null ? null : (currentUserData.alamat.length === 0 ? null : currentUserData.alamat[0].alamat))}</span> */}
+                </div>
               </div>
             </>
           }
@@ -431,26 +705,45 @@ class SettingsView extends React.Component {
         }
         <div>
           {
-            showUserInformationModal ? 
+            showUserBioInformationModal ? 
             <>
               <div className={styles.modalOverlay}></div>
               <div className={styles.modalBox}>
                 <X 
                   size={24} 
                   onClick={() => this.setState({ 
-                    showUserInformationModal: false, 
-                    name: {
-                      ...name,
-                      showInputBox: false
-                    }, 
-                    birthdate: {
-                      ...birthdate,
-                      showInputBox: false
-                    }, 
-                    gender: {
-                      ...gender,
-                      showInputBox: false
-                    }
+                    showUserBioInformationModal: false, 
+                    // name: {
+                    //   value: '',
+                    //   bool: false,
+                    //   showInputBox: false
+                    // },
+                    // birthdate: {
+                    //   value: {
+                    //     day: {
+                    //       value: '',
+                    //       bool: false,
+                    //       dropdownOpen: false
+                    //     },
+                    //     month: {
+                    //       value: '',
+                    //       bool: false,
+                    //       dropdownOpen: false
+                    //     },
+                    //     year: {
+                    //       value: '',
+                    //       bool: false,
+                    //       dropdownOpen: false
+                    //     }
+                    //   },
+                    //   bool: false,
+                    //   showInputBox: false
+                    // },
+                    // gender: {
+                    //   value: '',
+                    //   bool: false,
+                    //   showInputBox: false
+                    // }
                   })} 
                   className={styles.closeButton} 
                 />
@@ -462,8 +755,8 @@ class SettingsView extends React.Component {
                     <>
                       <label className={styles.nameLabel}>Name</label>
                       <div className={styles.formInputWrapper}>
-                        <div className={styles.inputWrapper}>
-                          <input disabled name="name" className={`${styles.inputBox} ${styles.globalStyling}`} value={name.value} />
+                        <div className={name.inputFocused ? styles.inputWrapperFocused : styles.inputWrapper}>
+                          <input name="name" className={`${styles.inputBox} ${styles.globalStyling}`} value={name.value} onChange={this.handleChange} onFocus={this.focusFunction}/>
                         </div>
                       </div>
                     </> :
@@ -473,11 +766,12 @@ class SettingsView extends React.Component {
                           <>
                             <label className={styles.nameLabel}>Name</label>
                             <div className={styles.inputWrapper}>
-                              <input name="name" className={`${styles.inputBox} ${styles.globalStyling}`} onChange={this.handleChange} value={name.value} />
+                              <input name="name" className={`${styles.inputBox} ${styles.globalStyling}`} onChange={this.handleChange} value={name.value} onFocus={this.focusFunction}/>
                             </div>
                           </> :
                           <>
                             <Link
+                              to="#"
                               className={styles.nameInputLink}
                               onClick={() => this.setState({
                                 name: {
@@ -497,33 +791,54 @@ class SettingsView extends React.Component {
                       <label className={styles.nameLabel}>Birthdate</label>
                       <div className={styles.formInputWrapper}>
                           <div className={styles.inputWrapper}>
-                            <input disabled name="birthdate" className={`${styles.inputBox} ${styles.globalStyling}`} value={genderFormatter(birthdate.value)} />
+                            <input disabled name="birthdate" className={`${styles.inputBox} ${styles.globalStyling}`} value={dateFormatter(birthdate.value)} />
                           </div>
                       </div>
                     </> :
                     <>
-                      <div className={styles.formInputWrapper}>
-                          {birthdate.showInputBox ?
-                            <>
-                              {/* <label className={styles.nameLabel}>Birthdate</label> */}
-                              <Dropdown width={180} value="Day"/>
-                              <Dropdown />
-                              <Dropdown />
-                              {/* <h1>show input box</h1> */}
-                            </> :
-                            <> 
+                      {birthdate.showInputBox ?
+                        <div className={styles.birtdateFormWrapper}>
+                          <>
+                            {/* <label className={styles.nameLabel}>Birthdate</label> */}
+                            <this.Dropdown 
+                              partOf="day" 
+                              width={100} 
+                              value={birthdate.value.day.bool ? birthdate.value.day.value : 'Date'} 
+                              dateSize={31}
+                              startPoint={1}/>
+                            <this.Dropdown
+                              partOf="month" 
+                              width={184} 
+                              value={birthdate.value.month.bool ? birthdate.value.month.value : 'Month'} 
+                              dateSize={12}
+                              startPoint={1}/>
+                            <this.Dropdown 
+                              partOf="year"
+                              width={100}
+                              value={birthdate.value.year.bool ? birthdate.value.year.value : 'Year'}
+                              dateSize={80}
+                              startPoint={1941}/>
+                            {/* <h1>show input box</h1> */}
+                          </>
+                        </div>
+                             :
+                        <div className={styles.formInputWrapper}>
+                          <> 
                             <Link 
-                            className={styles.nameInputLink} 
-                            onClick={() => this.setState({ 
-                              birthdate: {
-                                ...birthdate, 
-                                showInputBox: true
-                              } 
-                            })}
+                              to="#"
+                              className={styles.nameInputLink} 
+                              onClick={() => this.setState({ 
+                                birthdate: {
+                                  ...birthdate, 
+                                  showInputBox: true
+                                } 
+                              })}
                             >
                               Add Birthdate
-                          </Link></>}
-                      </div>
+                            </Link>
+                          </>
+                        </div>
+                        }
                     </>
                   }
                   {
@@ -571,13 +886,16 @@ class SettingsView extends React.Component {
                           </> :
                           <> 
                             <Link 
-                            className={styles.nameInputLink} 
-                            onClick={() => this.setState({ 
-                              gender: {
-                                ...gender, 
-                                showInputBox: true
-                              } 
-                            })}
+                              to="#"
+                              className={styles.nameInputLink} 
+                              onClick={() => {this.setState({ 
+                                gender: {
+                                  ...gender, 
+                                  showInputBox: true
+                                } 
+                              })
+                              console.log(this.state.gender)}
+                            }
                             >
                               Add Gender
                             </Link>
@@ -588,18 +906,129 @@ class SettingsView extends React.Component {
                   }
                 </div>
                 <button 
-                  onClick={this.userInfoSubmitButton} 
-                  className={this.isFilled() ? styles.submitButtonEnabled : styles.submitButtonDisabled}
+                  onClick={this.userBioInfoSubmitButton} 
+                  className={this.isBioFormFilled() ? styles.submitButtonEnabled : styles.submitButtonDisabled}
                   {
-                    ...this.isFilled() ? 
+                    ...this.isBioFormFilled() ?
                     null : 
                     { disabled: 'disabled' }
                   }
                 >
-                  <span>Save</span>
+                  {
+                    submitDataLoading ?
+                    <span className={styles.loadingSpan}>
+                      <ReactLoading type="bubbles" color="#fff" />
+                    </span> :
+                    <span>Save</span>
+                  }
                 </button>
               </div>
             </> : 
+            <span></span>
+          }
+        </div>
+        <div>
+          {
+            showUserContactInformationModal ? 
+            <>
+              <div className={styles.modalOverlay}></div>
+              <div className={styles.modalBox}>
+                <X
+                  size={24}
+                  onClick={() => this.setState({
+                    showUserContactInformationModal: false,
+                    email: {
+                      ...email
+                    }, 
+                    phoneNumber: {
+                      ...phoneNumber 
+                    }
+                  })}
+                  className={styles.closeButton}
+                />
+                <h2 className={styles.modalBoxTitle}>Ubah Data Kontak</h2>
+                <p className={styles.modalBoxSubtitle}>Pastikan Email dan Nomor HP yang Anda cantumkan merupakan kontak yang sedang aktif</p>
+                <div className={styles.modalBoxFormWrapper}>
+                  <label className={styles.nameLabel}>Email</label>
+                  <div className={styles.formInputWrapper}>
+                    <div className={email.inputFocused ? styles.inputWrapperFocused : styles.inputWrapper}>
+                      <input type="email" name="email" className={`${styles.inputBox} ${styles.globalStyling}`} value={email.value} onChange={this.nonBioHandleChange} onFocus={this.focusFunction}/>
+                    </div>
+                  </div>
+                  <label className={styles.nameLabel}>No Telepon</label>
+                  <div className={styles.formInputWrapper}>
+                    <div className={phoneNumber.inputFocused ? styles.inputWrapperFocused : styles.inputWrapper}>
+                      <input type="phoneNumber" name="phoneNumber" className={`${styles.inputBox} ${styles.globalStyling}`} value={phoneNumber.value} onChange={this.nonBioHandleChange} onFocus={this.focusFunction} />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={this.userContactInfoSubmitButton}
+                  className={this.isContactFormFilled() ? styles.submitButtonEnabled : styles.submitButtonDisabled}
+                  {
+                  ...this.isContactFormFilled() ?
+                    null :
+                    { disabled: 'disabled' }
+                  }
+                >
+                  {
+                    submitDataLoading ? 
+                    <span className={styles.loadingSpan}>
+                      <ReactLoading type="bubbles" color="#fff"/>
+                    </span> :
+                    <span>Save</span>
+                  }
+                </button>
+              </div>
+            </> : 
+            <span></span>
+          }
+        </div>
+        <div>
+          {
+            showUserAddressInformationModal ? 
+            <>
+              <div className={styles.modalOverlay}></div>
+              <div className={styles.modalBox}>
+                <X
+                  size={24}
+                  onClick={() => this.setState({
+                    showUserAddressInformationModal: false,
+                    address: {
+                      ...address
+                    }
+                  })}
+                  className={styles.closeButton}
+                />
+                <h2 className={styles.modalBoxTitle}>Ubah Alamat</h2>
+                <p className={styles.modalBoxSubtitle}>Pastikan Alamat yang Anda cantumkan merupakan alamat Anda sebenarnya</p>
+                <div className={styles.modalBoxFormWrapper}>
+                  <label className={styles.nameLabel}>Alamat</label>
+                  <div className={styles.formInputWrapper}>
+                    <div className={address.inputFocused ? styles.inputWrapperFocused : styles.inputWrapper}>
+                      <input name="address" className={`${styles.inputBox} ${styles.globalStyling}`} value={address.value} onChange={this.nonBioHandleChange} onFocus={this.focusFunction} />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={this.userAddressInfoSubmitButton}
+                    className={this.isAddressFormFilled() ? styles.submitButtonEnabled : styles.submitButtonDisabled}
+                  {
+                  ...this.isAddressFormFilled() ?
+                    null :
+                    { disabled: 'disabled' }
+                  }
+                >
+                  {
+                    submitAddressLoading ?
+                      <span className={styles.loadingSpan}>
+                        <ReactLoading type="bubbles" color="#fff" />
+                      </span> :
+                      <span>Save</span>
+                  }
+                </button>
+              </div>
+            </> :
             <span></span>
           }
         </div>

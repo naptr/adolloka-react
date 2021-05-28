@@ -495,6 +495,26 @@
   border: 1px solid rgba(108, 117, 125, 0.3);
 }
 
+.inputWrapperFocused {
+  height: 40px;
+  border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0%;
+          flex: 1 1 0%;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: border-color 280ms ease 0s;
+  transition: border-color 280ms ease 0s;
+  background-color: white;
+  border: 1px solid #3A86FF;
+}
+
 .inputBox {
   padding-left: 12px;
   padding-right: 12px;
@@ -523,7 +543,6 @@
   font-weight: 600;
   font-size: 0.75rem;
   color: #3A86FF;
-  width: 100%;
 }
 
 .genderFormWrapper {
@@ -568,7 +587,6 @@
   background-color: #3A86FF;
   opacity: 0.5;
   cursor: not-allowed;
-  display: inline-block;
   border: none;
   text-indent: initial;
   position: relative;
@@ -596,6 +614,20 @@
 
 .submitButtonEnabled:hover {
   background-color: #3A78FF;
+}
+
+.loadingSpan {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .radioButtonWrapper {
@@ -649,6 +681,243 @@
   transition: -webkit-transform 280ms ease 0s;
   transition: transform 280ms ease 0s;
   transition: transform 280ms ease 0s, -webkit-transform 280ms ease 0s;
+}
+
+.birtdateFormWrapper {
+  position: relative;
+  margin-bottom: 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 400px;
+  margin-left: 18px;
+  margin-right: 18px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.birtdateFormWrapper ul {
+  max-height: 125px;
+}
+
+.defaultButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0px 8px 0px 12px;
+  cursor: pointer;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: border-radius 280ms ease 0s;
+  transition: border-radius 280ms ease 0s;
+  width: 100%;
+  height: 40px;
+  font-size: 0.675rem;
+  line-height: 40px;
+  background-color: #fff;
+  pointer-events: all;
+  text-align: left;
+}
+
+.defaultButton::after {
+  content: "";
+  display: inline-block;
+  background-image: url("/src/components/Assets/caret-down-fill.svg");
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-transition: background-color 0.12s ease 0s, -webkit-transform 280ms ease 0s;
+  transition: background-color 0.12s ease 0s, -webkit-transform 280ms ease 0s;
+  transition: transform 280ms ease 0s, background-color 0.12s ease 0s;
+  transition: transform 280ms ease 0s, background-color 0.12s ease 0s, -webkit-transform 280ms ease 0s;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  border-radius: 50%;
+}
+
+.defaultButton:focus {
+  outline: none;
+}
+
+.defaultButton:focus::after {
+  background-color: rgba(108, 117, 125, 0.1);
+}
+
+.defaultButton:hover::after {
+  background-color: rgba(108, 117, 125, 0.1);
+}
+
+.defaultLabel {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0%;
+          flex: 1 1 0%;
+  color: #6C757D;
+  cursor: pointer;
+  overflow: hidden;
+  padding-right: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.defaultLabel span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+}
+
+.dateNumberListWrapper {
+  max-height: 222px;
+  z-index: 20;
+}
+
+.dropdownDefault {
+  position: relative;
+  width: 100px;
+}
+
+.dropdownDefault .dateButton {
+  border-radius: 8px;
+}
+
+.dropdownDefault .dateNumberList {
+  -webkit-transition: opacity 0.16s ease 0s, visibility 0.16s ease 0s, -webkit-transform 280ms ease-out 0s;
+  transition: opacity 0.16s ease 0s, visibility 0.16s ease 0s, -webkit-transform 280ms ease-out 0s;
+  transition: transform 280ms ease-out 0s, opacity 0.16s ease 0s, visibility 0.16s ease 0s;
+  transition: transform 280ms ease-out 0s, opacity 0.16s ease 0s, visibility 0.16s ease 0s, -webkit-transform 280ms ease-out 0s;
+  width: 100%;
+  padding: 0px 4px;
+  overflow: auto;
+  position: absolute;
+  background: #FFF;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  border-radius: 0px 0px 8px 8px;
+  -webkit-transform-origin: center top;
+          transform-origin: center top;
+  scroll-behavior: smooth;
+  -webkit-transform: translateY(-8px);
+          transform: translateY(-8px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dropdownOpened {
+  position: relative;
+  width: 100px;
+}
+
+.dropdownOpened .dateButton {
+  border-radius: 8px 8px 0px 0px;
+  border-bottom: 1px solid transparent;
+}
+
+.dropdownOpened .dateNumberList {
+  -webkit-transition: opacity 0.16s ease 0s, visibility 0.16s ease 0s, -webkit-transform 280ms ease-out 0s;
+  transition: opacity 0.16s ease 0s, visibility 0.16s ease 0s, -webkit-transform 280ms ease-out 0s;
+  transition: transform 280ms ease-out 0s, opacity 0.16s ease 0s, visibility 0.16s ease 0s;
+  transition: transform 280ms ease-out 0s, opacity 0.16s ease 0s, visibility 0.16s ease 0s, -webkit-transform 280ms ease-out 0s;
+  width: 100%;
+  padding: 0px 4px;
+  overflow: auto;
+  position: absolute;
+  background: #FFF;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  border-radius: 0px 0px 8px 8px;
+  -webkit-transform-origin: center top;
+          transform-origin: center top;
+  scroll-behavior: smooth;
+}
+
+.dropdownOpened .dateButton::after {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+
+.dateListWrapper {
+  list-style: none;
+  padding: 0px;
+  margin: 4px 0px;
+}
+
+.dateListButton {
+  cursor: pointer;
+  list-style: none;
+  outline: none;
+  position: relative;
+  min-height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 4px 0px;
+}
+
+.dateListButton::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 0px;
+  height: 100%;
+  width: 3px;
+  background-color: #3A86FF;
+  opacity: 0;
+  -webkit-transition: opacity 0.08s ease-in 0s;
+  transition: opacity 0.08s ease-in 0s;
+}
+
+.dateListButton button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  padding: 6px 8px 6px 5px;
+  color: #6C757D;
+  background-color: rgba(108, 117, 125, 0);
+  font-size: 0.875rem;
+  font-weight: 400;
+  min-height: 32px;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  -o-border-image: initial;
+     border-image: initial;
+  text-align: left;
+  line-height: 1.33;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 4px;
+  border-left: 3px solid transparent;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.dateListButton button span {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.dateListButton:hover button {
+  background-color: rgba(108, 117, 125, 0.3);
 }
 
 /* Address View */
