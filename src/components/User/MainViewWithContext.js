@@ -117,7 +117,7 @@ const DashboardTabSection = (props) => {
               })
             }}
           >
-            Address
+            Address List
           </div>
           <IndicatorLine dynamicWidth={indicatorLine.indicatorLineWidth} dynamicTranslate={indicatorLine.indicatorTranslateX} />
         </div>
@@ -197,7 +197,7 @@ class MainViewWithContext extends React.Component {
                         tabWidth={this.testWidth}
                         navigation={props}
                       />
-                      <div className={styles.dashboardViewContainer}>
+                      <div className={styles.dashboardViewContainer} {...values.tab === 'address' ? {style: {padding: '36px 16px 16px', display: 'flex', flexDirection: 'column'}} : null}>
                         <RenderBasedQuery token={token} currentUserData={currentUserData} tab={values.tab} />
                       </div>
                     </div>

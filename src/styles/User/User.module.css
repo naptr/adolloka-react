@@ -168,7 +168,6 @@
       -ms-flex-align: start;
           align-items: flex-start;
   padding: 16px 0px;
-  max-height: 607px;
 }
 
 .settingsPhotoBox {
@@ -354,6 +353,10 @@
 .userInformationContent {
   font-family: 'Open Sans', sans-serif;
   margin-right: 12px;
+}
+
+.userInformationContentAddress {
+  font-family: 'Open Sans', sans-serif;
 }
 
 .uploadLoadingContainer {
@@ -921,4 +924,489 @@
 }
 
 /* Address View */
+.searchBarAddButtonWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+
+.addressSearcBarWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addressSearcBar {
+  border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: inherit;
+      -ms-flex-positive: inherit;
+          flex-grow: inherit;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  overflow: hidden;
+  -webkit-transition: border-color 280ms ease 0s;
+  transition: border-color 280ms ease 0s;
+  width: 300px;
+  height: auto;
+  background-color: white;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.addressSearcBar .inputSearch {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.addressSearchBarButton {
+  border: none;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  -webkit-transition: background-color 280ms ease;
+  transition: background-color 280ms ease;
+  width: 40px;
+  background-color: rgba(108, 117, 125, 0.3);
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+
+.searchBarInput {
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  color: #6C757D;
+  font-family: inherit;
+  background-color: transparent;
+  line-height: 22px;
+  border: none;
+  outline: none;
+  height: auto;
+  font-size: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.newAddressAddButton {
+  display: inline-block;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 24px;
+  text-indent: initial;
+  height: 40px;
+  width: auto;
+  color: white;
+  cursor: pointer;
+  padding: 0px 16px;
+  background-position: center center;
+  background-color: #3A86FF;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  -o-border-image: initial;
+     border-image: initial;
+  border-radius: 8px;
+  outline: none;
+  -webkit-transition: background 0.8s ease 0s;
+  transition: background 0.8s ease 0s;
+}
+
+.addressCardActivated {
+  margin: 16px 4px 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+          box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+  cursor: default;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: rgba(102, 161, 255, 0.3);
+  width: 100%;
+}
+
+.addressCardActivated::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 0px;
+  width: 6px;
+  height: 34px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #3A86FF;
+}
+
+.addressCardActivated::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #3A86FF;
+  border-radius: 8px;
+}
+
+.addressCardActivated .activatedAddressIcon {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.addressCardActivated .addressSettings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.iconWrapper {
+  width: 100%;
+  border-radius: 4px;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-image: none;
+}
+
+.activatedIcon {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+}
+
+.addressCardNonActivated {
+  margin: 16px 4px 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+          box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+  cursor: default;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #FFF;
+  width: 100%;
+}
+
+.addressCardNonActivated::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 0px;
+  width: 6px;
+  height: 34px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #3A86FF;
+}
+
+.addressCardNonActivated .activateButton {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 96px;
+}
+
+.addressCardNonActivated .addressSettings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addressCardNonActivated .addressSettings div + div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addressCardNonActivated .addressSettings div + div::before {
+  content: "";
+  display: block;
+  width: 2px;
+  height: 16px;
+  margin: 0px 12px;
+  background-color: rgba(108, 117, 125, 0.3);
+}
+
+.activateButtonStyle {
+  display: inline-block;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 18px;
+  text-indent: initial;
+  height: 32px;
+  width: auto;
+  color: white;
+  cursor: pointer;
+  padding: 0px 16px;
+  background-position: center center;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  -o-border-image: initial;
+     border-image: initial;
+  border-radius: 8px;
+  outline: none;
+  -webkit-transition: background 0.8s ease 0s;
+  transition: background 0.8s ease 0s;
+  background-color: #3A86FF;
+}
+
+.activateButtonStyle:hover {
+  background-color: #0058e6;
+}
+
+.addressKindWrapper {
+  display: block;
+  position: relative;
+  font-weight: 800;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+  line-height: 20px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 0px;
+}
+
+.addressKindName {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 350px;
+}
+
+.receiverNameWrapper {
+  display: block;
+  position: relative;
+  font-weight: 800;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 22px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 4px 0px 0px;
+}
+
+.receiverName {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 350px;
+}
+
+.paragraphStyle {
+  display: block;
+  position: relative;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 20px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 4px 0px 0px;
+}
+
+.activeLink {
+  font-family: 'Open Sans', sans-serif;
+  color: #3A86FF;
+  font-size: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.loadingSection {
+  display: block;
+  position: relative;
+  margin: 16px 4px 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+          box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+  background-color: #FFF;
+  cursor: default;
+  width: 100%;
+}
+
+.doubleFormWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-left: -8px;
+  margin-right: -8px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.perProfileFormWrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 50%;
+          flex: 0 0 50%;
+  max-width: 50%;
+  display: block;
+}
+
+.cityFormWrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 66.6667%;
+          flex: 0 0 66.6667%;
+  max-width: 66.6667%;
+  display: block;
+}
+
+.cityFormInsideWrapper {
+  position: relative;
+}
+
+.postalCodeFormWrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 33.3333%;
+          flex: 0 0 33.3333%;
+  max-width: 33.3333%;
+  display: block;
+}
+
+.addressFilteredChoices {
+  position: absolute;
+  top: 67px;
+  left: 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  max-height: 271px;
+  border-radius: 0px 0px 12px 12px;
+  margin-bottom: 48px;
+  background-color: #FFF;
+  -webkit-box-shadow: 0 2px 6px 0 rgba(108, 117, 125, 0.3);
+          box-shadow: 0 2px 6px 0 rgba(108, 117, 125, 0.3);
+  overflow: auto;
+  z-index: 99;
+}
+
+.addressSearchHeading {
+  display: block;
+  position: relative;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 18px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 0px;
+  padding: 16px 16px 12px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.addressListChoices {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+.addressListChoices:last-of-type {
+  border: 0px;
+}
+
+.addressListChoices .listItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  padding: 16px 16px 16px 8px;
+  margin-left: 16px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+.addressListChoices .filteredAddressChoiceContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0%;
+          flex: 1 1 0%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-right: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.addressListChoices .filteredAddressPoint {
+  margin: 8px 0px;
+  color: #6c757d;
+  font-size: 0.875rem;
+  line-height: 1.428 !important;
+  white-space: normal !important;
+}
 /*# sourceMappingURL=User.module.css.map */

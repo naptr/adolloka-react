@@ -127,7 +127,7 @@
   display: flex;
   align-items: flex-start;
   padding: 16px 0px;
-  max-height: 607px;
+  // max-height: 607px;
 }
 
 .settingsPhotoBox {
@@ -299,6 +299,11 @@
 .userInformationContent {
   font-family: 'Open Sans', sans-serif;
   margin-right: 12px;
+}
+
+.userInformationContentAddress {
+  font-family: 'Open Sans', sans-serif;
+  // margin-right: 12px;
 }
 
 .uploadLoadingContainer {
@@ -635,8 +640,6 @@
       background-color: rgba(108, 117, 125, 0.1);
     }
   }
-
-
 }
 
 .defaultLabel {
@@ -781,3 +784,404 @@
 }
 
 /* Address View */
+.searchBarAddButtonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.addressSearcBarWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.addressSearcBar {
+  border-radius: 8px;
+  display: flex;
+  flex-grow: inherit;
+  align-items: stretch;
+  overflow: hidden;
+  transition: border-color 280ms ease 0s;
+  width: 300px;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  flex-direction: row-reverse;
+
+  .inputSearch {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
+
+.addressSearchBarButton {
+  border: none;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 280ms ease;
+  width: 40px;
+  background-color: rgba(108, 117, 125, 0.3);
+  flex: 0 0 auto;
+}
+
+.searchBarInput {
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  color: #6C757D;
+  font-family: inherit;
+  background-color: transparent;
+  line-height: 22px;
+  border: none;
+  outline: none;
+  height: auto;
+  font-size: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.newAddressAddButton {
+  display: inline-block;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 24px;
+  text-indent: initial;
+  height: 40px;
+  width: auto;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 0px 16px;
+  background-position: center center;
+  background-color: #3A86FF;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  border-radius: 8px;
+  outline: none;
+  transition: background 0.8s ease 0s;
+}
+
+.addressCardActivated {
+  margin: 16px 4px 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+  cursor: default;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(102, 161, 255, 0.3);
+  width: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    width: 6px;
+    height: 34px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #3A86FF;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #3A86FF;
+    border-radius: 8px;
+  }
+
+  .activatedAddressIcon {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+  }
+  
+  .addressSettings {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.iconWrapper {
+  width: 100%;
+  border-radius: 4px;
+  height: 100%;
+  display: flex;
+  background-image: none;
+}
+
+.activatedIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.addressCardNonActivated {
+  margin: 16px 4px 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+  cursor: default;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FFF;
+  width: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    width: 6px;
+    height: 34px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #3A86FF;
+  }
+
+  .activateButton {
+    flex-shrink: 0;
+    width: 96px;
+  }
+
+  .addressSettings {
+    display: flex;
+    align-items: center;
+
+    div + div {
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 2px;
+        height: 16px;
+        margin: 0px 12px;
+        background-color: rgba(108, 117, 125, 0.3);
+      }
+    }
+  }
+}
+
+.activateButtonStyle {
+  display: inline-block;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 18px;
+  text-indent: initial;
+  height: 32px;
+  width: auto;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 0px 16px;
+  background-position: center center;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  border-radius: 8px;
+  outline: none;
+  transition: background 0.8s ease 0s;
+  background-color: #3A86FF;
+
+  &:hover {
+    background-color: rgba(0, 88, 230, 1);
+  }
+}
+
+.addressKindWrapper {
+  display: block;
+  position: relative;
+  font-weight: 800;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+  line-height: 20px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 0px;
+}
+
+.addressKindName {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 350px;
+}
+
+.receiverNameWrapper {
+  display: block;
+  position: relative;
+  font-weight: 800;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 22px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 4px 0px 0px;
+}
+
+.receiverName {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 350px;
+}
+
+.paragraphStyle {
+  display: block;
+  position: relative;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 20px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 4px 0px 0px;
+}
+
+.activeLink {
+  font-family: 'Open Sans', sans-serif;
+  color: #3A86FF;
+  font-size: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.loadingSection {
+  display: block;
+  position: relative;
+  margin: 16px 4px 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px 0 rgba(108, 117, 125, 0.3);
+  background-color: #FFF;
+  cursor: default;
+  width: 100%;
+}
+
+.doubleFormWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -8px;
+  margin-right: -8px;
+  box-sizing: border-box;
+}
+
+.perProfileFormWrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
+  flex: 0 0 50%;
+  max-width: 50%;
+  display: block;
+}
+
+.cityFormWrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
+  flex: 0 0 66.6667%;
+  max-width: 66.6667%;
+  display: block;
+}
+
+.cityFormInsideWrapper {
+  position: relative;
+}
+
+.postalCodeFormWrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
+  flex: 0 0 33.3333%;
+  max-width: 33.3333%;
+  display: block;
+}
+
+.addressFilteredChoices {
+  position: absolute;
+  top: 67px;
+  left: 0px;
+  box-sizing: border-box;
+  width: 100%;
+  max-height: 271px;
+  border-radius: 0px 0px 12px 12px;
+  margin-bottom: 48px;
+  background-color: #FFF;
+  box-shadow: 0 2px 6px 0 rgba(108, 117, 125, 0.3);
+  overflow: auto;
+  z-index: 99;
+}
+
+.addressSearchHeading {
+  display: block;
+  position: relative;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 18px;
+  color: #6C757D;
+  text-decoration: initial;
+  margin: 0px;
+  padding: 16px 16px 12px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.addressListChoices {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+
+  &:last-of-type {
+    border: 0px;
+  }
+
+  .listItem {
+    display: flex;
+    position: relative;
+    padding: 16px 16px 16px 8px;
+    margin-left: 16px;
+    align-items: center;
+    cursor: pointer;
+    background-position: left center;
+    background-repeat: no-repeat;
+  }
+
+  .filteredAddressChoiceContainer {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    padding-right: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .filteredAddressPoint {
+    margin: 8px 0px;
+    color: rgba(108, 117, 125, 1);
+    font-size: 0.875rem;
+    line-height: 1.428 !important;
+    white-space: normal !important;
+  }
+}
+

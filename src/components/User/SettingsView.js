@@ -8,8 +8,10 @@ import { Link } from 'react-router-dom';
 import styles from '../../styles/User/User.module.css';
 import { X } from 'react-bootstrap-icons';
 import ReactLoading from 'react-loading';
-import { stringify } from 'query-string';
+// import { stringify } from 'query-string';
 
+
+// Custom Components
 // Loading Components
 // Loading Skeleton
 const LoadingView = (props) => {
@@ -34,6 +36,63 @@ const LoadingViewUpload = () => {
     </div>
   )
 }
+
+// Name Components
+// class NameInput extends React.Component {
+//   constructor(props) {
+//     super(props)
+
+//     this.state = {
+//       name: ''
+//     }
+//   }
+
+//   handleChange = (ev) => {
+//     var field = ev.target.name;
+//     this.setState({[field]: ev.target.value})
+//   }
+
+//   render() {
+//     const { parentName } = this.props;
+
+//     return (
+//       name.bool ?
+//       <>
+//         <label className={styles.nameLabel}>Name</label>
+//         <div className={styles.formInputWrapper}>
+//           <div className={name.inputFocused ? styles.inputWrapperFocused : styles.inputWrapper}>
+//             <input name="name" className={`${styles.inputBox} ${styles.globalStyling}`} value={name.value} onChange={this.handleChange} onFocus={this.focusFunction} />
+//           </div>
+//         </div>
+
+//       </> :
+//       <>
+//         <div className={styles.formInputWrapper}>
+//           {name.showInputBox ?
+//             <>
+//               <label className={styles.nameLabel}>Name</label>
+//               <div className={styles.inputWrapper}>
+//                 <input name="name" className={`${styles.inputBox} ${styles.globalStyling}`} onChange={this.handleChange} value={name.value} onFocus={this.focusFunction} />
+//               </div>
+//             </> :
+//             <>
+//               <Link
+//                 to="#"
+//                 className={styles.nameInputLink}
+//                 onClick={() => this.setState({
+//                   name: {
+//                     ...name,
+//                     showInputBox: true
+//                   }
+//                 })}
+//               >
+//                 Add Name
+//                     </Link></>}
+//         </div>
+//       </>
+//     )
+//   }
+// }
 
 // Some Functions
 const dateFormatter = (date) => {
@@ -390,7 +449,7 @@ class SettingsView extends React.Component {
     )
   }
   
-  userBioInfoSubmitButton = () => {
+  userProfileInfoSubmitButton = () => {
     const { token } = this.props;
     const { 
       name, 
@@ -447,12 +506,12 @@ class SettingsView extends React.Component {
 
   userAddressInfoSubmitButton = () => {
     const { token } = this.props;
-    const { address, currentUserData } = this.state;
+    const { address, currentUserData } = this.state;  
 
     var formData = new FormData();
     formData.append('alamat', address.value);
-    formData.append('penerima', (currentUserData.alamat.length === 0 ? (currentUserData.profile === null ? 'Null' : currentUserData.profile.nama) : currentUserData.alamat[0].penerima))
-    formData.append('no_hp', (currentUserData.alamat.length === 0 ? (currentUserData.user.no_hp) : currentUserData.alamat[0].no_hp))
+    formData.append('penerima', (currentUserData.user.profile === null ? currentUserData.user.username : (currentUserData.alamat.length === 0 ? (currentUserData.profile === null ? 'Null' : currentUserData.profile.nama) : currentUserData.alamat[0].penerima)))
+    formData.append('no_hp', (currentUserData.user.profile === null ? parseInt(currentUserData.no_hp) : (currentUserData.alamat.length === 0 ? parseInt(currentUserData.user.no_hp) : parseInt(currentUserData.alamat[0].no_hp))))
 
     this.setState(
       {submitAddressLoading: true}, 
@@ -474,6 +533,12 @@ class SettingsView extends React.Component {
               showUserAddressInformationModal: false
             })
             console.log('Updating data Success')
+          } else if (res.status === 500) {
+            alert('Mohon isi Data Profile terlebih dahulu')
+            this.setState({
+              submitAddressLoading: false,
+              showUserAddressInformationModal: false
+            })
           }
         })
         .catch(err => {
@@ -696,7 +761,7 @@ class SettingsView extends React.Component {
                 </div>
                 <div className={styles.userInformationNameWrapper}>
                   <span className={styles.userInformationTitle}>Alamat</span>
-                  {/* <span className={styles.userInformationContent}>{currentUserData === null ? null : (currentUserData.user.profile === null ? null : (currentUserData.alamat.length === 0 ? null : currentUserData.alamat[0].alamat))}</span> */}
+                  <span className={styles.userInformationContentAddress}>{currentUserData.alamat.length === 0 ? null : currentUserData.alamat[0].alamat}</span>
                 </div>
               </div>
             </>
@@ -750,6 +815,7 @@ class SettingsView extends React.Component {
                 <h2 className={styles.modalBoxTitle}>Ubah Biodata Diri</h2>
                 <p className={styles.modalBoxSubtitle}>Data yang ada dalam Biodata ini bersifat penting.<br/>Pastikan biodata dirimu sudah terisi dengan benar.</p>
                 <div className={styles.modalBoxFormWrapper}>
+                    {/* <NameInput parentName={name} onChange={this.handleChange} onFocus={this.focusFunction} /> */}
                   {
                     name.bool ?
                     <>
@@ -759,6 +825,7 @@ class SettingsView extends React.Component {
                           <input name="name" className={`${styles.inputBox} ${styles.globalStyling}`} value={name.value} onChange={this.handleChange} onFocus={this.focusFunction}/>
                         </div>
                       </div>
+                      
                     </> :
                     <>
                       <div className={styles.formInputWrapper}>
@@ -906,7 +973,7 @@ class SettingsView extends React.Component {
                   }
                 </div>
                 <button 
-                  onClick={this.userBioInfoSubmitButton} 
+                  onClick={this.userProfileInfoSubmitButton} 
                   className={this.isBioFormFilled() ? styles.submitButtonEnabled : styles.submitButtonDisabled}
                   {
                     ...this.isBioFormFilled() ?

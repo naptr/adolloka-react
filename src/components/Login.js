@@ -17,6 +17,7 @@ class Login extends React.Component {
       username: '', 
       password: '', 
       token: null, 
+      invalidAccount: false,
       isLoading: false, 
       redirect: null
     }
@@ -27,6 +28,10 @@ class Login extends React.Component {
     this.setState({ [field]: ev.target.value });
   }
   
+  handleFocus = () => {
+    this.setState({ invalidAccount: false })
+  }
+
   handleKeyPress = (ev) => {
     if (ev.key === "Enter") {
       this.submitForm();
@@ -35,7 +40,10 @@ class Login extends React.Component {
 
   submitForm = () => {
     this.setState(
-      {isLoading: true} , 
+      {
+        isLoading: true, 
+        invalidAccount: false
+      } , 
       () => {
         fetch(
           'https://adolloka.herokuapp.com/api/login', 
@@ -66,8 +74,13 @@ class Login extends React.Component {
             );
             // this.props.history.push('/');
             // console.log(this.props);
+          } else if (res.status === 400) {
+            this.setState({ 
+              isLoading: false,
+              invalidAccount: true
+            })
           } else {
-            alert('Cannot Login');
+            console.log(res)
             this.setState({ isLoading: false })
           }
         })
@@ -125,8 +138,11 @@ class Login extends React.Component {
                       type="text"
                       name="username"
                       onChange={this.handleOnChange}
+                      onFocus={this.handleFocus}
                       value={this.state.username}
+                      className={this.state.invalidAccount ? styles.invalidActivated : styles.validActivated}
                     />
+                    <span className={this.state.invalidAccount ? styles.invalidMessageOn : styles.invalidMessageOff}></span>
                   </div>
                   <div className={styles.inputWrapper}>
                     <label className={styles.inputTitle}>Password</label>
@@ -134,9 +150,11 @@ class Login extends React.Component {
                       type="password"
                       name="password"
                       onChange={this.handleOnChange}
+                      onFocus={this.handleFocus}
                       value={this.state.password}
+                      className={this.state.invalidAccount ? styles.invalidActivated : styles.validActivated}
                     />
-                    <span className={styles.passwordValidation}></span>
+                    <span className={this.state.invalidAccount ? styles.invalidMessageOnPassword : styles.invalidMessageOff}></span>
                   </div>
                   {/* {console.log(this.state.isLoading)} */}
                   <button 

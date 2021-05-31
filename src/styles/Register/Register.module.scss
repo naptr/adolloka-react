@@ -155,19 +155,24 @@
         margin-top: 0.25rem;
       }
 
-      .bottomText:before {
-        content: 'Example:email@adolloka.com';
+      .bottomText {
+        &::before {
+          content: 'Example:email@adolloka.com';
+        }
       }
 
       .bottomTextNone {
         visibility: hidden;
         font-weight: 600;
         font-size: 0.75rem;
+        min-height: 17px;
         // margin-top: 0.25rem;
       }
 
-      .bottomTextNone:before {
-        content: "xxx"
+      .bottomTextNone {
+        &::before {
+          content: "";
+        }
       }
 
       .passwordSuccess {
@@ -177,9 +182,11 @@
         // margin-top: 0.25rem;
       }
       
-      .passwordSuccess:after {
-        color: #0EAD69;
-        content: "Password is match"
+      .passwordSuccess {
+        &::after {
+          color: #0EAD69;
+          content: "Password is match"
+        }
       }
 
       .passwordFail {
@@ -189,9 +196,11 @@
         // margin-top: 0.25rem;
       }
 
-      .passwordFail:after {
-        color: #E01E37;
-        content: "Password doesn't match"
+      .passwordFail {
+        &::after {
+          color: #E01E37;
+          content: "Password doesn't match"
+        }
       }
     }
 

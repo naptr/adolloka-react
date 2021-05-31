@@ -195,7 +195,7 @@
   margin-top: 0.25rem;
 }
 
-.registerForm .formContainer .inputWrapper .bottomText:before {
+.registerForm .formContainer .inputWrapper .bottomText::before {
   content: 'Example:email@adolloka.com';
 }
 
@@ -203,10 +203,11 @@
   visibility: hidden;
   font-weight: 600;
   font-size: 0.75rem;
+  min-height: 17px;
 }
 
-.registerForm .formContainer .inputWrapper .bottomTextNone:before {
-  content: "xxx";
+.registerForm .formContainer .inputWrapper .bottomTextNone::before {
+  content: "";
 }
 
 .registerForm .formContainer .inputWrapper .passwordSuccess {
@@ -215,7 +216,7 @@
   font-size: 0.75rem;
 }
 
-.registerForm .formContainer .inputWrapper .passwordSuccess:after {
+.registerForm .formContainer .inputWrapper .passwordSuccess::after {
   color: #0EAD69;
   content: "Password is match";
 }
@@ -226,7 +227,7 @@
   font-size: 0.75rem;
 }
 
-.registerForm .formContainer .inputWrapper .passwordFail:after {
+.registerForm .formContainer .inputWrapper .passwordFail::after {
   color: #E01E37;
   content: "Password doesn't match";
 }

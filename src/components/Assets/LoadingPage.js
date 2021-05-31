@@ -8,7 +8,7 @@ const LoadingPage = () => {
   return (
     <div className={styles.loadingPage}>
       {/* <ReactLoading type={'spinningBubbles'} color="#3A86FF" width={'2.5%'} /> */}
-      <Loader type="MutatingDots" color="#3A86FF" secondaryColor="#0EAD69" width="100" height="100" />
+      <Loader type="MutatingDots" color="#3A86FF" secondaryColor="#0EAD69" width={100} height={100} />
     </div>
   )
 }

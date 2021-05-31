@@ -128,7 +128,7 @@
           justify-content: flex-start;
   width: 100%;
   height: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 7px;
 }
 
 .loginForm .formContainer .inputWrapper label {
@@ -140,7 +140,7 @@
   margin-bottom: 0.25rem;
 }
 
-.loginForm .formContainer .inputWrapper input {
+.loginForm .formContainer .inputWrapper input.validActivated {
   width: 100%;
   height: 2.75rem;
   padding: 0.5rem 0.75em;
@@ -149,18 +149,51 @@
   border: 0.5px solid #DEE2E6;
 }
 
-.loginForm .formContainer .inputWrapper input:focus {
+.loginForm .formContainer .inputWrapper input.validActivated:focus {
   border-radius: 0.375em;
   border-color: #3A86FF;
   outline: none;
 }
 
-.loginForm .formContainer .inputWrapper .passwordValidation {
-  visibility: hidden;
+.loginForm .formContainer .inputWrapper input.invalidActivated {
+  width: 100%;
+  height: 2.75rem;
+  padding: 0.5rem 0.75em;
+  font-size: 0.875rem;
+  border-radius: 0.5em;
+  border: 0.5px solid #E01E37;
 }
 
-.loginForm .formContainer .inputWrapper .passwordValidation:before {
-  content: 'xxx';
+.loginForm .formContainer .inputWrapper input.invalidActivated:focus {
+  border-radius: 0.375em;
+  border-color: #3A86FF;
+  outline: none;
+}
+
+.loginForm .formContainer .invalidMessageOff {
+  visibility: hidden;
+  font-weight: 600;
+  font-size: 0.75rem;
+  min-height: 17px;
+}
+
+.loginForm .formContainer .invalidMessageOn {
+  visibility: visible;
+  font-weight: 600;
+  font-size: 0.75rem;
+  min-height: 17px;
+}
+
+.loginForm .formContainer .invalidMessageOn::before {
+  content: "Password atau Username salah atau tidak ada";
+  color: #E01E37;
+}
+
+.loginForm .formContainer .invalidMessageOnPassword {
+  visibility: visible;
+  font-weight: 600;
+  font-size: 0.75rem;
+  min-height: 17px;
 }
 
 .loginForm .formContainer .submitButton {
