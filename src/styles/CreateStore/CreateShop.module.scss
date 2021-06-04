@@ -1,0 +1,43 @@
+.createStoreContainer {
+  display: flex;
+  min-height: calc(100vh - 78px);
+  // justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  width: 1200px;
+
+  div {
+    flex-basis: 50%;
+  }
+}
+
+.storeImageWrapper {
+  // padding: 0 72px;
+  display: flex;
+  justify-content: center;
+  img {
+    width: calc(500px*(4/5));
+    height: calc(366px*(4/5));
+  }
+}
+
+.createShopForm {
+  padding: 32px 40px 40px 32px;
+  border: 1px solid rgba(108, 117, 125, 0.3);
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  p {
+    margin: 0px 0px 24px;
+    text-align: left;
+  }
+}
+
+.createShopTitle {
+  display: block;
+  position: relative;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 22px;
+  color: rgba(108, 117, 125);
+}

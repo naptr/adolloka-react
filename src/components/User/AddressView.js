@@ -2,7 +2,7 @@ import React from 'react';
 import { Search } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { X } from 'react-bootstrap-icons';
-import ReactLoading from 'react-loading';
+// import ReactLoading from 'react-loading';
 import Skeleton from 'react-loading-skeleton';
 import styles from '../../styles/User/User.module.css'
 
@@ -17,19 +17,31 @@ class AddressView extends React.Component {
       newAddressName: '',
       newAddressPhone: '',
       newAddressDestination: '',
+      // newAddressProvince: '',
+      // newAddressCity: '',
+      // newAddressSubdistrict: '',
+      // newAddressUrban: '',
       newAddressPostalCode: '',
       newAddress: '',
       queryAddress: '',
       filteredAddress: [],
-      selectedAddress: null,
-      availablePostalCode: null,
+      selectedAddress: '',
+      additionalAddressData: '',
+      availablePostalCode: '',
+      selectedPostalCode: '',
+      postalCodeWrapperVisible: false,
       isValueSelected: false,
       addressWrapperVisibel: false,
       gettingAddressDataLoading: false,
       currentProvince: '',
       currentCity: '',
       currentSubdistrict: '',
+      currentUrban: '',
+      currentAddressId: '',
       userTyping: 0,
+      currentReceiverName: '',
+      currentReceiverPhoneNumber: '',
+      currentAddressLabel: '',
       clickedId: null,
       addresses: [],
       newAddressesArray: [],
@@ -38,7 +50,8 @@ class AddressView extends React.Component {
       filterClicked: false,
       showAddNewAddressModal: false,
       changeAddressClicked: false,
-      gettingDataLoading: false
+      gettingDataLoading: false,
+      uploadAddressDataLoading: false
     }
   }
 
@@ -46,9 +59,9 @@ class AddressView extends React.Component {
   getAddressAll = () => {
     const { token } = this.props;
 
-    // this.setState(
-    //   {gettingDataLoading: true}, 
-    //   () => {
+    this.setState(
+      {gettingDataLoading: true}, 
+      () => {
         fetch(
           'http://adolloka.herokuapp.com/api/user/alamat', 
           {
@@ -75,8 +88,8 @@ class AddressView extends React.Component {
           console.log(err)
           this.setState({gettingDataLoading: false})
         })
-    //   }
-    // )
+      }
+    )
   }
 
   getUserData = () => {
@@ -97,7 +110,16 @@ class AddressView extends React.Component {
           if (res.status === 200) {
             const body = await res.json();
             console.log(body)
-            this.setState({userData: body})
+            this.setState({
+              userData: body
+            })
+
+            if (body.user.profile !== null && (body.alamat).length === 0) {
+              this.setState({
+                currentReceiverName: body.profile.nama, 
+                currentReceiverPhoneNumber: body.profile.no_hp
+              })
+            }
           }
         })
         .catch(err => {
@@ -162,6 +184,92 @@ class AddressView extends React.Component {
     )
   }
 
+  changeAddressSubmit = (id) => {
+    const { token } = this.props 
+    var formData = new FormData();
+
+    if (this.state.changeAddressClicked) { 
+      formData.append('alamat', this.state.additionalAddressData);
+      formData.append('desa', this.state.currentUrban);
+      formData.append('kecamatan', this.state.currentSubdistrict);
+      formData.append('kota', this.state.currentCity);
+      formData.append('provinsi', this.state.currentProvince);
+      formData.append('kd_pos', this.state.selectedPostalCode);
+      formData.append('penerima',   this.state.currentReceiverName);
+      formData.append('no_hp', this.state.currentReceiverPhoneNumber);
+      formData.append('jns_alamat', this.state.currentAddressLabel);
+  
+      this.setState(
+        { uploadAddressDataLoading: true }, 
+        () => {
+          fetch(
+            `https://adolloka.herokuapp.com/api/user/alamat/${id}/update`, 
+            {
+              method: 'POST', 
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }, 
+              body: formData
+            }
+          )
+          .then(async res => {
+            if ( res.status === 200) {
+              console.log('update success')
+            } else {
+              console.log('update failed')
+            }
+            this.setState({ uploadAddressDataLoading: false })
+            this.getAddressAll()
+          }) 
+          .catch(err => {
+            console.log(err)
+            this.setState({ uploadAddressDataLoading: false })
+         })
+        }
+      )
+    } else if (this.state.changeAddressClicked === false) {
+      // var formData = new FormData();
+      formData.append('alamat', this.state.newAddress);
+      formData.append('desa', this.state.currentUrban);
+      formData.append('kecamatan', this.state.currentSubdistrict);
+      formData.append('kota', this.state.currentCity);
+      formData.append('provinsi', this.state.currentProvince);
+      formData.append('kd_pos', this.state.selectedPostalCode);
+      formData.append('penerima', this.state.newAddressName);
+      formData.append('no_hp', this.state.newAddressPhone);
+      formData.append('jns_alamat', this.state.newAddressLabel);
+
+      this.setState(
+        { uploadAddressDataLoading: true },
+        () => {
+          fetch(
+            `https://adolloka.herokuapp.com/api/user/alamat/create`,
+            {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              },
+              body: formData
+            }
+          )
+          .then(async res => {
+            if (res.status === 200) {
+              console.log('update success')
+            } else {
+              console.log('update failed')
+            }
+            this.setState({ uploadAddressDataLoading: false })
+            this.getAddressAll()
+          })
+          .catch(err => {
+            console.log(err)
+            this.setState({ uploadAddressDataLoading: false })
+          })
+        }
+      )
+    }
+  }
+
   // Custom Method
   arrayChanger = (array) => {
     var newArray = [];
@@ -192,6 +300,7 @@ class AddressView extends React.Component {
       currentProvince: el.province,
       currentCity: el.city, 
       currentSubdistrict: el.subdistrict,
+      currentUrban: el.urban,
       availablePostalCode: el.postalcode, 
       addressWrapperVisibel: false,
       newAddressDestination: ''
@@ -208,6 +317,8 @@ class AddressView extends React.Component {
       } else if ((val.penerima).toLowerCase().includes(addressSearch.toLowerCase()) || (val.alamat).toLowerCase().includes(addressSearch.toLowerCase())) {
         return val
       }
+      
+      return null
     })
 
     if (addressSearch !== "") {
@@ -221,26 +332,68 @@ class AddressView extends React.Component {
   }
 
   addressInputHandle = (ev) => {
-    this.setState({ newAddressDestination: ev.target.value })
-    if (this.state.userTyping) {
-      clearTimeout(this.state.userTyping);
+    if (this.state.changeAddressClicked) {
+      this.setState({ selectedAddress: ev.target.value })
+      if (this.state.userTyping) {
+        clearTimeout(this.state.userTyping);
+      }
+
+      if ((this.state.selectedAddress).length >= 3) {
+        this.setState({
+          // newAddressDestination: ev.target.value, 
+          addressWrapperVisibel: true,
+          userTyping: setTimeout(() => {
+            this.getPostalCode(this.state.selectedAddress)
+          }, 1000)
+        })
+        console.log(ev.target.value)
+      } else if ((this.state.selectedAddress).length === 0) {
+        this.setState({
+          addressWrapperVisibel: false,
+          filteredAddress: []
+        })
+      }
+    } else if (this.state.changeAddressClicked === false) {
+      this.setState({ newAddressDestination: ev.target.value })
+      if (this.state.userTyping) {
+        clearTimeout(this.state.userTyping);
+      }
+      
+      if ((this.state.newAddressDestination).length >= 3) {
+        this.setState({
+          // newAddressDestination: ev.target.value, 
+          addressWrapperVisibel: true,
+          userTyping: setTimeout(() => {
+            this.getPostalCode(this.state.newAddressDestination)
+          }, 1000)
+        })
+        console.log(ev.target.value)
+      } else if ((this.state.newAddressDestination).length === 0) {
+        this.setState({ 
+          addressWrapperVisibel: false, 
+          filteredAddress: [] 
+        })
+      }
     }
-    
-    if ((this.state.newAddressDestination).length >= 3) {
-      this.setState({
-        // newAddressDestination: ev.target.value, 
-        addressWrapperVisibel: true,
-        userTyping: setTimeout(() => {
-          this.getPostalCode(this.state.newAddressDestination)
-        }, 1000)
-      })
-      console.log(ev.target.value)
-    } else if ((this.state.newAddressDestination).length === 0) {
-      this.setState({ 
-        addressWrapperVisibel: false, 
-        filteredAddress: [] 
-      })
+  }
+
+  postalFocusHandler = () => {
+    this.setState({ postalCodeWrapperVisible: true })
+  }
+
+  postalCodeInputHandler = (ev) => {
+    if (this.state.changeAddressClicked) {
+      this.setState({ selectedPostalCode: ev.target.value })
+    } else if (this.state.changeAddressClicked === false) {
+      this.setState({ newAddressPostalCode: ev.target.value })
     }
+  }
+
+  selectPostalCode = (val) => {
+    this.setState({
+      selectedPostalCode: val, 
+      postalCodeWrapperVisible: false
+    })
   }
 
   // ComponentDid Method
@@ -262,11 +415,19 @@ class AddressView extends React.Component {
       newAddressDestination,
       newAddressPostalCode,
       newAddress,
+      availablePostalCode,
+      postalCodeWrapperVisible,
+      selectedPostalCode,
       filteredAddress,
       selectedAddress,
       addressWrapperVisibel,
       gettingAddressDataLoading,
-      clickedId,
+      additionalAddressData,
+      currentAddressId,
+      // clickedId,
+      currentReceiverName,
+      currentReceiverPhoneNumber,
+      currentAddressLabel,
       // addresses, 
       newAddressesArray, 
       // addressSearch, 
@@ -349,8 +510,19 @@ class AddressView extends React.Component {
                           console.log("THIS IS DIVS")
                           this.setState({
                             showAddNewAddressModal: true, 
-                            changeAddressClicked: true, 
-                            clickedId: key
+                            changeAddressClicked: true,
+                            selectedAddress: `${el.provinsi}, ${el.kota}, ${el.kecamatan}, ${el.desa}`,
+                            currentProvince: el.provinsi, 
+                            currentCity: el.kota,
+                            currentSubdistrict: el.kecamatan,
+                            currentUrban: el.desa,
+                            selectedPostalCode: el.kd_pos,
+                            additionalAddressData: el.alamat,
+                            currentReceiverName: el.penerima,
+                            currentReceiverPhoneNumber: el.no_hp,
+                            currentAddressLabel: el.jns_alamat, 
+                            currentAddressId: el.id
+                            // clickedId: key
                           })
                         }} 
                         className={styles.activeLink}
@@ -416,7 +588,16 @@ class AddressView extends React.Component {
                       changeAddressClicked ? 
                       this.setState({ 
                         showAddNewAddressModal: false, 
-                        changeAddressClicked: false
+                        changeAddressClicked: false,
+                        additionalAddressData: '',
+                        currentAddressLabel: '',
+                        currentCity: '',
+                        currentProvince: '',
+                        currentSubdistrict: '',
+                        currentUrban: '',
+                        currentReceiverPhoneNumber: '',
+                        selectedAddress: '',
+                        selectedPostalCode: ''
                       }) : 
                       this.setState({ showAddNewAddressModal: false })
                     }}
@@ -431,15 +612,17 @@ class AddressView extends React.Component {
                         {/* email.inputFocused ? styles.inputWrapperFocused : */}
                         {/* {console.log(newAddressesArray[clickedId])} */}
                         <input 
-                          name="newAddressLabel" 
+                          name={changeAddressClicked ? 'currentAddressLabel' : 'newAddressLabel'} 
                           className={`${styles.inputBox} ${styles.globalStyling}`} 
                           value={changeAddressClicked ? 
-                            (filteredArray.length !== 0 ? 
-                              filteredArray[clickedId].jns_alamat : 
-                              newAddressesArray[clickedId].jns_alamat) : 
+                            // (filteredArray.length !== 0 ? 
+                            //   filteredArray[clickedId].jns_alamat : 
+                            //   newAddressesArray[clickedId].jns_alamat) : 
+                              currentAddressLabel : 
                               newAddressLabel} 
                           onChange={this.handleChange} 
-                          onFocus={this.focusFunction} />
+                          // onFocus={this.focusFunction}
+                           />
                         {/* email.value */}
                       </div>
                     </div>
@@ -450,15 +633,17 @@ class AddressView extends React.Component {
                           <div className={styles.inputWrapper}>
                             {/* phoneNumber.inputFocused ? styles.inputWrapperFocused : */}
                             <input
-                              name="newAddressName"
+                              name={changeAddressClicked ? 'currentReceiverName' : 'newAddressName'}
                               className={`${styles.inputBox} ${styles.globalStyling}`}
                               value={changeAddressClicked ? 
-                                (filteredArray.length !== 0 ? 
-                                  filteredArray[clickedId].penerima : 
-                                  newAddressesArray[clickedId].penerima) : 
-                                  newAddressName}
-                              onChange={() => console.log('test')}
-                              onFocus={this.focusFunction} />
+                                // (filteredArray.length !== 0 ? 
+                                //   filteredArray[clickedId].penerima : 
+                                //   newAddressesArray[clickedId].penerima) : 
+                                //   newAddressName}
+                                currentReceiverName : newAddressName}
+                              onChange={this.handleChange}
+                              // onFocus={this.focusFunction}
+                               />
                             {/* phoneNumber.value */}
                           </div>
                         </div>
@@ -470,15 +655,17 @@ class AddressView extends React.Component {
                             {/* phoneNumber.inputFocused ? styles.inputWrapperFocused : */}
                             <input 
                               type="tel" 
-                              name="newAddressPhone" 
+                              name={changeAddressClicked ? 'currentReceiverPhoneNumber' : 'newAddressPhone'} 
                               className={`${styles.inputBox} ${styles.globalStyling}`} 
                               value={changeAddressClicked ? 
-                                (filteredArray.length !== 0 ? 
-                                  filteredArray[clickedId].no_hp : 
-                                  newAddressesArray[clickedId].no_hp) : 
-                                  newAddressPhone}
-                              onChange={() => console.log('test')} 
-                              onFocus={this.focusFunction} />
+                                // (filteredArray.length !== 0 ? 
+                                //   filteredArray[clickedId].no_hp : 
+                                //   newAddressesArray[clickedId].no_hp) : 
+                                //   newAddressPhone}
+                                currentReceiverPhoneNumber : newAddressPhone}
+                              onChange={this.handleChange} 
+                              // onFocus={this.focusFunction}
+                               />
                             {/* phoneNumber.value */}
                           </div>
                         </div>
@@ -487,17 +674,18 @@ class AddressView extends React.Component {
                     <div className={styles.doubleFormWrapper}>
                       <div className={styles.cityFormWrapper}>
                         <div className={styles.cityFormInsideWrapper}>
-                          <label className={styles.nameLabel}>Kota atau Kecamatan</label>
+                          <label className={styles.nameLabel}>Kecamatan atau Desa</label>
                           <div className={styles.formInputWrapper}>
                             <div className={styles.inputWrapper}>
                               {/* phoneNumber.inputFocused ? styles.inputWrapperFocused : */}
                               <input
-                                name="newAddressDestination"
+                                // name="newAddressDestination"
                                 className={`${styles.inputBox} ${styles.globalStyling}`}
                                 // value={changeAddressClicked ? (filteredArray.length !== 0 ? filteredArray[clickedId].penerima : newAddressesArray[clickedId].penerima) : newAddressDestination}
-                                value={selectedAddress ? selectedAddress : newAddressDestination}
+                                value={changeAddressClicked ? (selectedAddress ? selectedAddress : '') : (selectedAddress ? selectedAddress : newAddressDestination)}
                                 onChange={this.addressInputHandle}
-                                onFocus={this.focusFunction} />
+                                // onFocus={this.focusFunction}
+                                 />
                               {/* phoneNumber.value */}
                             </div>
                           </div>
@@ -510,10 +698,10 @@ class AddressView extends React.Component {
 
                                     </div> :
                                     <>
-                                      <p className={styles.addressSearchHeading}>Untuk mempersingkat waktu, isi dengan kecamatan tujuan pengiriman</p>
+                                      <p className={styles.addressSearchHeading}>Untuk mempersingkat waktu, isi dengan desa tujuan pengiriman</p>
                                       <ul className={styles.addressListChoices}>
                                         {filteredAddress.map((el, key) => (
-                                          <li className={styles.listItem} style={{ backgroundImage: 'url("/assets/geo-alt-fill.svg")', backgroundSize: 14 + 'px' }} onClick={() => this.selectAddress(el)}>
+                                          <li key={key} className={styles.listItem} style={{ backgroundImage: 'url("/assets/geo-alt-fill.svg")', backgroundSize: 14 + 'px' }} onClick={() => this.selectAddress(el)}>
                                             <div className={styles.filteredAddressChoice} style={{paddingLeft: 32+'px'}} tabIndex={0} role="button">
                                               <div className={styles.filteredAddressPoint}>{el.province}, {el.city}, {el.subdistrict}, {el.urban}</div>
                                             </div>
@@ -528,19 +716,32 @@ class AddressView extends React.Component {
                         </div>
                       </div>
                       <div className={styles.postalCodeFormWrapper}>
-                        <label className={styles.nameLabel}>Kode Pos</label>
-                        <div className={styles.formInputWrapper}>
-                          <div className={styles.inputWrapper}>
-                            {/* phoneNumber.inputFocused ? styles.inputWrapperFocused : */}
-                            <input
-                              name="newAddressPostalCode"
-                              className={`${styles.inputBox} ${styles.globalStyling}`}
-                              // value={changeAddressClicked ? (filteredArray.length !== 0 ? filteredArray[clickedId].no_hp : newAddressesArray[clickedId].no_hp) : newAddressPostalCode}
-                              value={newAddressPostalCode}
-                              onChange={() => console.log('postal code')}
-                              onFocus={this.focusFunction} />
-                            {/* phoneNumber.value */}
+                        <div className={styles.postalCodeInsideWrapper}>
+                          <label className={styles.nameLabel}>Kode Pos</label>
+                          <div className={styles.formInputWrapper}>
+                            <div className={styles.inputWrapper}>
+                              {/* phoneNumber.inputFocused ? styles.inputWrapperFocused : */}
+                              <input
+                                // type="number"
+                                // name="newAddressPostalCode"
+                                className={`${styles.inputBox} ${styles.globalStyling}`}
+                                // value={changeAddressClicked ? (filteredArray.length !== 0 ? filteredArray[clickedId].no_hp : newAddressesArray[clickedId].no_hp) : newAddressPostalCode}
+                                value={changeAddressClicked ? (selectedPostalCode ? selectedPostalCode : '') : (selectedPostalCode ? selectedPostalCode : newAddressPostalCode)}
+                                onChange={this.postalCodeInputHandler}
+                                onFocus={this.postalFocusHandler}
+                                 />
+                              {/* phoneNumber.value */}
+                            </div>
                           </div>
+                          {
+                            postalCodeWrapperVisible ? 
+                            <div className={styles.postalCodeChoices}>
+                              <ul className={styles.postalListChoices}>
+                                  <li className={styles.listItem} onClick={() => this.selectPostalCode(availablePostalCode)}>{availablePostalCode}</li>
+                              </ul>
+                            </div> :
+                            null
+                          }
                         </div>
                       </div>
                     </div>
@@ -549,24 +750,46 @@ class AddressView extends React.Component {
                       <div className={styles.inputWrapper}>
                         {/* email.inputFocused ? styles.inputWrapperFocused : */}
                         {/* {console.log(newAddressesArray[clickedId])} */}
-                        <input name="newAddress" className={`${styles.inputBox} ${styles.globalStyling}`}
+                        <input 
+                          name={changeAddressClicked ? 'additionalAddressData' : 'newAddress'} 
+                          className={`${styles.inputBox} ${styles.globalStyling}`}
                           // value={changeAddressClicked ? (filteredArray.length !== 0 ? filteredArray[clickedId].alamat : newAddressesArray[clickedId].alamat) : newAddressLabel}
-                          value={newAddress}
+                          value={changeAddressClicked ? additionalAddressData : newAddress}
                           onChange={this.handleChange}
-                          onFocus={this.focusFunction} />
+                          // onFocus={this.focusFunction}
+                           />
                         {/* email.value */}
                       </div>
                     </div>
                   </div>
                   <button
-                    onClick={changeAddressClicked ? this.changeAddressSubmit : this.addAddressSubmit}
-                    className={styles.submitButtonDisabled}
+                    onClick={() => {
+                      this.changeAddressSubmit(currentAddressId)
+                      changeAddressClicked ? 
+                      this.setState({
+                        showAddNewAddressModal: false,
+                        changeAddressClicked: false,
+                        additionalAddressData: '',
+                        currentAddressLabel: '',
+                        currentCity: '',
+                        currentProvince: '',
+                        currentSubdistrict: '',
+                        currentUrban: '',
+                        currentReceiverPhoneNumber: '',
+                        selectedAddress: '',
+                        selectedPostalCode: ''
+                      }) : 
+                      this.setState({
+                        showAddNewAddressModal: false,
+                      })                        
+                    }}
+                    className={styles.submitButtonEnabled}
                     // {
                     // ...this.isContactFormFilled() ?
                     //   null :
                     //   { disabled: 'disabled' }
                     // }
-                    disabled
+                    // disabled
                   >
                     {/* this.isContactFormFilled() ? styles.submitButtonEnabled : */}
                     {/* {

@@ -6,3 +6,46 @@
   width: 100%;
   margin: 0px auto;
 }
+
+.mainViewMainWrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0px auto 150px;
+}
+
+.productsSectionWrapper {
+  display: block;
+  width: 1208px;
+  margin: 0px auto;
+}
+
+.wrapperTopLayer {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapperSecondLayer {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 450px;
+}
+
+.wrapperThirdLayer {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.wrapperFourthLayer {
+  position: relative;
+  display: flex;
+  margin-right: -8px;
+  margin-left: -8px;
+  flex-flow: row wrap;
+}

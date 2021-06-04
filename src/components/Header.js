@@ -3,7 +3,7 @@ import
   { useState, 
     // useHistory
   } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { 
   Search, 
@@ -13,7 +13,7 @@ import {
 } from 'react-bootstrap-icons';
 import Logo from '../components/Assets/Logo';
 import styles from '../styles/Header/Header.module.css';
-import { MAKE_LOGOUT } from '../constant/CONSTANT';
+// import { MAKE_LOGOUT } from '../constant/CONSTANT';
 
 
 const LeftHeader = () => {
@@ -110,9 +110,8 @@ const RightHeader = (props) => {
     isLogin, 
     mainProps, 
     currentUserData, 
-    anotherProps 
+    // anotherProps 
   } = props;
-
 
   if (isLogin) {
     return (
@@ -138,9 +137,11 @@ const RightHeader = (props) => {
 
             // sessionStorage.removeItem('token');
             // sessionStorage.removeItem('currentUserData');
-            anotherProps.makeLogout();
+            // anotherProps.makeLogout();
             console.log(props);
-            return <Redirect to="/" />
+            // return <Redirect to="/" />
+            // return <Redirect to="/createshop" />
+            mainProps.push('/createshop')
             // console.log(props.anotherProps)
           }}
           onMouseEnter={() => setShopButtonHovered(true)}
@@ -299,14 +300,14 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    makeLogout: () => {
-      dispatch({
-        type: MAKE_LOGOUT
-      })
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     makeLogout: () => {
+//       dispatch({
+//         type: MAKE_LOGOUT
+//       })
+//     }
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, null)(Header);

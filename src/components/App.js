@@ -6,6 +6,8 @@ import {
 import Home from '../components/Home';
 import Login from '../components/Login';
 import Register from '../components/Register';
+import CreateToko from './CreateShop';
+import ItemPage from '../components/ItemPage';
 import EasterEgg from '../components/Assets/EasterEgg';
 import User from '../components/User';
 import styles from '../styles/App/App.module.css';
@@ -43,6 +45,8 @@ class App extends React.Component {
             <Route path="/user/:id" component={User}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
+            <Route path="/createshop" component={CreateToko} />
+            <Route path="/itempage/:id" component={ItemPage} />
             <Route path="/easteregg" exact component={EasterEgg}/>
           </Switch>
         </div>

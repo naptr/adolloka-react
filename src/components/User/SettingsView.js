@@ -437,7 +437,7 @@ class SettingsView extends React.Component {
             // this.getUserData();
             this.setState({ uploadLoading: false });
           }
-          alert('updating data success')
+          console.log("updating data success");
         })
         .catch(err => this.setState(
           {uploadLoading: false}, 
