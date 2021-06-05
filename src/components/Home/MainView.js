@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import styles from '../../styles/Home/Home.module.css';
 
 
+const toTitleCase = (text) => {
+  var newText = text.split(' ')
+                .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+                .join(' ')
+  
+  return newText;
+}
+
 class MainView extends React.Component {
   constructor(props) {
     super(props);
@@ -57,17 +65,33 @@ class MainView extends React.Component {
                             <div className={styles.productFifthLayer}>
                               <div className={styles.productSixthLayer}>
                                 <div className={styles.productImageWrapper}>
-                                  <Link to={`/imagepage/${el.id}`}>
+                                  <Link to={`/item/${el.toko.domain_toko}/${el.id}`}>
                                     <div className={styles.productImageLinkWrapper}>
-                                      <img src={el.foto.length === 0 ? "/assets/sacred-cow.png" : el.foto[0]} width="188px" height="188px" alt="gambar sapi"/>
+                                      <img src={el.foto.length === 0 ? "/assets/product-pic.jpg" : el.foto[0]} width="188px" height="188px" alt="gambar sapi"/>
                                     </div>
                                   </Link>
                                 </div>
                                 <div className={styles.productSimpleDescWrapper}>
-                                  <Link>
-                                    <div>{el.nama}</div>
-                                    <div>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR'}).format(el.harga)}</div>
+                                  <Link className={styles.productSimpleDescLink} to={`/item/${el.toko.domain_toko}/${el.id}`}>
+                                    <div className={styles.productName}>{el.nama}</div>
+                                    <div className={styles.productPrice}>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR'}).format(el.harga)}</div>
+                                    <div className={styles.productInformation}>
+                                      <div className={styles.productShopWrapper}>
+                                        <div className={styles.productShopInformation}>
+                                          <span className={styles.productInformationText}>{toTitleCase(el.toko.kota)}</span>
+                                          <span className={styles.productInformationText}>{toTitleCase(el.toko.nama_toko)}</span>
+                                        </div>
+                                      </div>
+                                      {/* <div className={styles.productQuantityInformationWrapper}>
+                                        <span className={styles.productQuantity}>Jumlah barang {el.jumlah}</span>
+                                      </div> */}
+                                    </div>
                                   </Link>
+                                  <div className={styles.dotsOptionWrapper}>
+                                    <div className={styles.threeDots} threedots="true">
+                                      <img src="/assets/three-dots.svg" alt="option"/>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>

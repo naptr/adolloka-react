@@ -14,6 +14,7 @@ import styles from '../styles/App/App.module.css';
 import LoadingPage from './Assets/LoadingPage';
 import { connect } from 'react-redux';
 import { MAKE_LOGGEDIN, SAVE_TOKEN } from '../constant/CONSTANT';
+import CategoryPage from './CategoryPage';
 
 
 class App extends React.Component {
@@ -46,7 +47,8 @@ class App extends React.Component {
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
             <Route path="/createshop" component={CreateToko} />
-            <Route path="/itempage/:id" component={ItemPage} />
+            <Route path="/item/:domain_toko/:id" component={ItemPage} />
+            <Route path="/category" component={CategoryPage} />
             <Route path="/easteregg" exact component={EasterEgg}/>
           </Switch>
         </div>

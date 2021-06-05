@@ -5,7 +5,8 @@ const preloader = {
   token: null,
   currentUserData: null,
   currentUserShop: null,
-  isLogin: false
+  isLogin: false,
+  cartCounter: 0
 }
 
 const reducer = (state, action) => {
@@ -35,6 +36,16 @@ const reducer = (state, action) => {
         token: null, 
         currentUserData: null
       }, window.location.reload())
+    case 'ADD_CART_COUNT':
+      return ({
+        ...state,
+        cartCounter: state.cartCounter + 1
+      })
+    case 'SUBTRACT_CART_COUNT':
+      return ({
+        ...state,
+        cartCounter: state.cartCounter - 1
+      })
     default:
       return state;
   };

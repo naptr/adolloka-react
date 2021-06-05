@@ -13,11 +13,13 @@ import {
 } from 'react-bootstrap-icons';
 import Logo from '../components/Assets/Logo';
 import styles from '../styles/Header/Header.module.css';
+import { ADD_CART_COUNT, SUBTRACT_CART_COUNT } from '../constant/CONSTANT';
 // import { MAKE_LOGOUT } from '../constant/CONSTANT';
 
 
-const LeftHeader = () => {
+const LeftHeader = (props) => {
   const [categoryHovered, setCategoryHovered] = useState(false);
+  const { history } = props;
 
   return (
     <>
@@ -36,6 +38,7 @@ const LeftHeader = () => {
             }} : 
             null
           }
+          onClick={() => history.push('/category')}
           onMouseEnter={() => setCategoryHovered(true)}
           onMouseLeave={() => setCategoryHovered(false)}>
           Kategori
@@ -110,7 +113,7 @@ const RightHeader = (props) => {
     isLogin, 
     mainProps, 
     currentUserData, 
-    // anotherProps 
+    anotherProps 
   } = props;
 
   if (isLogin) {
@@ -118,14 +121,15 @@ const RightHeader = (props) => {
       <>
       {/* {console.log(props)} */}
         <div className={styles.buttonsContainer}>
-          <div className={styles.buttonLoggedIn}>
+          <div className={styles.buttonLoggedIn} onClick={() => anotherProps.addCartCount()}>
             <Button buttonName={CartFill} />
           </div>
-          <div className={styles.buttonLoggedIn}>
+          <div className={styles.buttonLoggedIn} onClick={() => anotherProps.subtractCartCount()}>
             <Button buttonName={BellFill} />
           </div>
           <div className={styles.buttonLoggedIn}>
             <Button buttonName={EnvelopeFill}/>
+            {anotherProps.cartCounter}
           </div>
         </div>
         <div className={styles.verticalLine}>
@@ -141,7 +145,12 @@ const RightHeader = (props) => {
             console.log(props);
             // return <Redirect to="/" />
             // return <Redirect to="/createshop" />
-            mainProps.push('/createshop')
+            if (currentUserData.user.profile === null) {
+              alert('Lengkapi profile terlebih dahulu')
+            } else {
+              mainProps.push('/createshop')
+            }
+
             // console.log(props.anotherProps)
           }}
           onMouseEnter={() => setShopButtonHovered(true)}
@@ -276,7 +285,7 @@ class Header extends React.Component {
         <div style={{marginTop: 88+"px"}} className={styles.spacer}>
           <div className={styles.headerContainer}>
             <div className={styles.headerContentTop}>
-              <LeftHeader />
+              <LeftHeader history={this.props}/>
               <SearchBar isLogin={this.props.isLogin}/>
               {/* {console.log(this.state.userData)} */}
               <RightHeader 
@@ -296,18 +305,24 @@ class Header extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
-    currentUserData: state.currentUserData
+    currentUserData: state.currentUserData,
+    cartCounter: state.cartCounter
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     makeLogout: () => {
-//       dispatch({
-//         type: MAKE_LOGOUT
-//       })
-//     }
-//   }
-// }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addCartCount: () => {
+      dispatch({
+        type: ADD_CART_COUNT
+      })
+    }, 
+    subtractCartCount: () => {
+      dispatch({
+        type: SUBTRACT_CART_COUNT
+      })
+    }
+  }
+}
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

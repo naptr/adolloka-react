@@ -18,7 +18,7 @@
 .productsSectionWrapper {
   display: block;
   width: 1208px;
-  margin: 0px auto;
+  margin: auto;
 }
 
 .wrapperTopLayer {
@@ -48,4 +48,202 @@
   margin-right: -8px;
   margin-left: -8px;
   flex-flow: row wrap;
+}
+
+/* Product Wrapper */
+
+.productTopLayer {
+  flex: 1 1 16.667%;
+  display: flex;
+  max-width: 16.667%;
+  padding: 0px 8px 25px;
+  box-sizing: border-box;
+}
+
+.productSecondLayer {
+  position: relative;
+  background-color: #FFF;
+  display: inline-flex;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.productThirdLayer {
+  position: relative;
+  border-radius: 8px;
+  min-width: 100%;
+
+  [threedots] {
+    width: 24px;
+    height: 24px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(4px, 4px);
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.productFourthLayer {
+  position: relative;
+  height: 100%;
+  flex: 0.5 1 0%;
+  z-index: 0;
+  min-width: 50%;
+  cursor: pointer;
+
+  &:hover {
+    .productInformationText {
+      transform: translateY(-18px);
+    }
+  }
+}
+
+.productFifthLayer {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background-color: #FFF;
+  padding: 0px;
+  height: 100%;
+  border-radius: 9px;
+  box-shadow: 0px 1px 6px 0px rgba(108, 117, 125, 0.3);
+  margin: 0px;
+}
+
+.productSixthLayer {
+  display: flex;
+  position: static;
+  overflow: visible;
+  flex-flow: column nowrap;
+  height: 100%;
+}
+
+.productImageWrapper {
+  position: relative;
+  margin: 0px;
+  display: block;
+  padding-bottom: 100%;
+  height: 0px;
+  overflow: hidden;
+}
+
+.productImageLinkWrapper {
+  background-color: transparent;
+  height: auto;
+  margin: 0px auto;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.productSimpleDescWrapper {
+  font-family: 'Open Sans', sans-serif;
+  padding: 8px;
+  height: auto;
+  vertical-align: middle;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+}
+
+.productSimpleDescLink {
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.productName {
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  color: rgb(108, 117, 125);
+  max-width: 100%;
+  max-height: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: initial;
+}
+
+.productPrice {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  color: rgb(42, 45, 48);
+  opacity: 1;
+  font-size: 0.875rem;
+  font-weight: bold;
+  align-items: flex-end;
+  line-height: 1.43;
+}
+
+.productInformation {
+  position: relative;
+
+  div {
+    &:last-child {
+      margin-bottom: 1px;
+      width: 85%;
+    }
+  }
+}
+
+.productShopWrapper {
+  display: flex;
+  align-items: center;
+  color: rgb(108, 117, 125);
+  font-size: 0.75rem;
+}
+
+.productShopInformation {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 18px;
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+  // position: relative;
+}
+
+.productInformationText {
+  height: 20px;
+  transition: transform 0.3s ease 0s;
+  transform: unset;
+}
+
+.dotsOptionWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.threeDots {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  overflow: hidden;
+  object-fit: contain;
+  transition: background-color 180ms ease 0s;
+
+  &:hover {
+    background-color: rgba(108, 117, 125, 0.3);
+    border-radius: 50%;
+  }
 }

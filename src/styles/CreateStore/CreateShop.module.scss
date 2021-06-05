@@ -41,3 +41,15 @@
   line-height: 22px;
   color: rgba(108, 117, 125);
 }
+
+.createShopInput {
+  position: relative;
+  transition: height 0.3s ease-out 0s;
+
+  // > .inputHeader {
+  // padding-left: 56px;
+  // display: flex;
+  // align-items: center;
+  // min-height: 32px;
+  // }
+}
