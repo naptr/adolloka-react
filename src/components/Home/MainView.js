@@ -67,7 +67,7 @@ class MainView extends React.Component {
                                 <div className={styles.productImageWrapper}>
                                   <Link to={`/item/${el.toko.domain_toko}/${el.id}`}>
                                     <div className={styles.productImageLinkWrapper}>
-                                      <img src={el.foto.length === 0 ? "/assets/product-pic.jpg" : el.foto[0]} width="188px" height="188px" alt="gambar sapi"/>
+                                      <img src={el.foto.length === 0 ? "/assets/product-pic.jpg" : el.foto[0].foto} {...el.foto.length === 0 ? null : {style: {objectFit: 'cover'}}} width="188px" height="188px" alt="gambar sapi"/>
                                     </div>
                                   </Link>
                                 </div>

@@ -14,7 +14,7 @@ import styles from '../styles/App/App.module.css';
 import LoadingPage from './Assets/LoadingPage';
 import { connect } from 'react-redux';
 import { MAKE_LOGGEDIN, SAVE_TOKEN } from '../constant/CONSTANT';
-import CategoryPage from './CategoryPage';
+import CategoryPage from '../components/CategoryPage';
 
 
 class App extends React.Component {

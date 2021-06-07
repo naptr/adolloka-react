@@ -46,6 +46,11 @@ const reducer = (state, action) => {
         ...state,
         cartCounter: state.cartCounter - 1
       })
+    case 'ADD_LATEST_CART_COUNT':
+      return ({
+        ...state,
+        cartCounter: action.latestCartCounter
+      })
     default:
       return state;
   };

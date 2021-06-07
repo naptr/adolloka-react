@@ -156,6 +156,25 @@
   margin: 0 0 0 12px;
 }
 
+.littleCartCounter {
+  font-family: 'Open Sans', sans-serif;
+  min-width: 20px;
+  min-height: 20px;
+  color: #FFF;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  background-color: #E01E37;
+  border: 2px solid #FFF;
+  border-radius: 18px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 0px 4px;
+  transform: translate(30%, -8%);
+}
+
 .button {
   width: 36px;
   height: 30px;
@@ -164,6 +183,7 @@
   justify-content: center;
   cursor: pointer;
   transition: 0.2s;
+  position: relative;
 }
 
 .verticalLine {

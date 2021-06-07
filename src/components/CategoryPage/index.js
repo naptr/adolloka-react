@@ -1,4 +1,10 @@
 import React from 'react';
+import { 
+  Switch, 
+  Route
+} from 'react-router-dom';
+import ProductBasedOnCategory from '../CategoryPage/ProductBasedOnCategory';
+import AllCategories from './AllCategories';
 
 
 class CategoryPage extends React.Component {
@@ -8,7 +14,10 @@ class CategoryPage extends React.Component {
 
   render() {
     return (
-      <div>{this.props.match.path}</div>
+      <Switch>
+        <Route path="/category" exact component={AllCategories} />
+        <Route path="/category/:slug" component={ProductBasedOnCategory} />
+      </Switch>
     )
   }
 }

@@ -1,6 +1,8 @@
 import 
   React, 
-  { useState, 
+  { 
+    useEffect,
+    useState, 
     // useHistory
   } from 'react';
 // import { Redirect } from 'react-router-dom';
@@ -13,7 +15,7 @@ import {
 } from 'react-bootstrap-icons';
 import Logo from '../components/Assets/Logo';
 import styles from '../styles/Header/Header.module.css';
-import { ADD_CART_COUNT, SUBTRACT_CART_COUNT } from '../constant/CONSTANT';
+import { ADD_CART_COUNT, ADD_LATEST_CART_COUNT, SUBTRACT_CART_COUNT } from '../constant/CONSTANT';
 // import { MAKE_LOGOUT } from '../constant/CONSTANT';
 
 
@@ -85,30 +87,34 @@ class SearchBar extends React.Component {
 
 const Button = (props) => {
   const [buttonHovered, setButtonHovered] = useState(false);
+  const { anotherProps } = props;
 
   return (
-    <div
-      className={styles.button}
-      {
-      ...buttonHovered ? {
-        style: {
-          backgroundColor: "rgba(49, 53, 59, 0.12)",
-          borderRadius: 4 + "px"
+      <div
+        className={styles.button}
+        {
+        ...buttonHovered ? {
+          style: {
+            backgroundColor: "rgba(49, 53, 59, 0.12)",
+            borderRadius: 4 + "px"
+          }
+        } :
+          null
         }
-      } :
-        null
-      }
-      onMouseEnter={() => setButtonHovered(true)}
-      onMouseLeave={() => setButtonHovered(false)}
-    >
-      <props.buttonName size={18} />
-    </div>
+        onMouseEnter={() => setButtonHovered(true)}
+        onMouseLeave={() => setButtonHovered(false)}
+      >
+        <props.buttonName size={18} />
+        
+        {props.buttonName === CartFill ? (anotherProps.cartCounter !== 0 ? <span className={styles.littleCartCounter}>{anotherProps.cartCounter}</span> : null) : null }
+      </div>
   )
 }
 
 const RightHeader = (props) => {
   const [shopButtonHovered, setShopButtonHovered] = useState(false);
   const [accountButtonHovered, setAccountButtonHovered] = useState(false);
+  const [currentCartQuantity, setCurrentCartQuantity] = useState(0);
   const { 
     isLogin, 
     mainProps, 
@@ -116,20 +122,51 @@ const RightHeader = (props) => {
     anotherProps 
   } = props;
 
+  console.log(props)
+
+  const gettingCartData = () => {
+    const { token } = anotherProps;
+
+    fetch(
+      'https://adolloka.herokuapp.com/api/cart', 
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    )
+    .then(async res => {
+      if (res.status === 200) {
+        const body = await res.json();
+        
+        console.log(body.data)
+        setCurrentCartQuantity((body.data).length)
+
+        anotherProps.saveLatestCartCount(currentCartQuantity);
+      } else {
+        console.log('Failed while fetching data')
+      }
+    })
+    .catch(err => console.error(err));
+  }
+
+  useEffect(() => {
+    gettingCartData()
+  })
+
   if (isLogin) {
     return (
       <>
       {/* {console.log(props)} */}
         <div className={styles.buttonsContainer}>
-          <div className={styles.buttonLoggedIn} onClick={() => anotherProps.addCartCount()}>
-            <Button buttonName={CartFill} />
+          <div className={styles.buttonLoggedIn}>
+            <Button buttonName={CartFill} anotherProps={anotherProps}/>
           </div>
-          <div className={styles.buttonLoggedIn} onClick={() => anotherProps.subtractCartCount()}>
+          <div className={styles.buttonLoggedIn}>
             <Button buttonName={BellFill} />
           </div>
           <div className={styles.buttonLoggedIn}>
             <Button buttonName={EnvelopeFill}/>
-            {anotherProps.cartCounter}
           </div>
         </div>
         <div className={styles.verticalLine}>
@@ -283,9 +320,10 @@ class Header extends React.Component {
     // } else {
       return (
         <div style={{marginTop: 88+"px"}} className={styles.spacer}>
+          {console.log(this.props)}
           <div className={styles.headerContainer}>
             <div className={styles.headerContentTop}>
-              <LeftHeader history={this.props}/>
+              <LeftHeader history={this.props.mainProps}/>
               <SearchBar isLogin={this.props.isLogin}/>
               {/* {console.log(this.state.userData)} */}
               <RightHeader 
@@ -306,20 +344,17 @@ const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
     currentUserData: state.currentUserData,
-    cartCounter: state.cartCounter
+    cartCounter: state.cartCounter,
+    token: state.token
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCartCount: () => {
+    saveLatestCartCount: (count) => {
       dispatch({
-        type: ADD_CART_COUNT
-      })
-    }, 
-    subtractCartCount: () => {
-      dispatch({
-        type: SUBTRACT_CART_COUNT
+        type: ADD_LATEST_CART_COUNT, 
+        latestCartCounter: count
       })
     }
   }
