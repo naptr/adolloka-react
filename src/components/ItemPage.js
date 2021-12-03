@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import { Redirect } from 'react-router-dom';
-import { ADD_CART_COUNT, ADD_USER_DATA, SUBTRACT_CART_COUNT } from '../constant/CONSTANT';
+import { ADD_CART_COUNT, ADD_USER_DATA } from '../constant/CONSTANT';
 import LoadingPage from '../components/Assets/LoadingPage';
 import Header from './Header';
 import styles from '../styles/ItemPage/ItemPage.module.css';
@@ -16,7 +16,6 @@ class ItemPage extends React.Component {
       userData: null,
       itemData: null,
       loading: true,
-      // itemCategories: null,
       currentCategoryId: '',
       currentCategorySlug: '',
       currentCategoryName: '',

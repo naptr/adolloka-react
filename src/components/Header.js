@@ -15,7 +15,7 @@ import {
 } from 'react-bootstrap-icons';
 import Logo from '../components/Assets/Logo';
 import styles from '../styles/Header/Header.module.css';
-import { ADD_CART_COUNT, ADD_LATEST_CART_COUNT, SUBTRACT_CART_COUNT } from '../constant/CONSTANT';
+import { ADD_LATEST_CART_COUNT } from '../constant/CONSTANT';
 // import { MAKE_LOGOUT } from '../constant/CONSTANT';
 
 
@@ -106,7 +106,7 @@ const Button = (props) => {
       >
         <props.buttonName size={18} />
         
-        {props.buttonName === CartFill ? (anotherProps.cartCounter !== 0 ? <span className={styles.littleCartCounter}>{anotherProps.cartCounter}</span> : null) : null }
+        {props.buttonName === CartFill ? (anotherProps?.cartCounter !== 0 ? <span className={styles.littleCartCounter}>{anotherProps?.cartCounter}</span> : null) : null }
       </div>
   )
 }

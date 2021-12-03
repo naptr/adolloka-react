@@ -306,7 +306,7 @@ class SettingsView extends React.Component {
             <div className={`${styles.dateNumberListWrapper} ${styles.dateNumberList}`}>
               <ul role="listbox" {...dropdownOpen ? { tabIndex: "-1" } : null} className={styles.dateListWrapper}>
                 {[...Array(dateSize).keys()].map((el, key) => (
-                  <li role="option" key={key} className={styles.dateListButton}>
+                  <li role="option" key={key} className={styles.dateListButton} aria-selected="true">
                     <button onClick={() => {
                       console.log(el+startPoint);
                       this.setState({
